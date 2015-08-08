@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGFoodModel;
+import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
+import com.huhmoon.apparely.interfaces.OnScanResultsListener;
 import com.huhmoon.apparely.ui.graphics.FGImages;
 
 import butterknife.Bind;
@@ -27,9 +30,12 @@ public class FGFoodFragment extends Fragment {
 
     /** FRAGMENT VARIABLES _____________________________________________________________________ **/
 
+    private Boolean isFavorite = false; // Used to determine if the food has been set as a favorite food.
+
     // FOOD VARIABLES
     private int foodNumber = 0; // References the fragment number.
     private FGFoodModel foodModel; // References the food model object for this fragment.
+    private String foodName = ""; // References the name of the food.
 
     // FRAGMENT VARIABLES
     private View food_view; // References the layout for the fragment.
@@ -44,6 +50,7 @@ public class FGFoodFragment extends Fragment {
     @Bind(R.id.fg_food_fragment_background_image) ImageView foodImage;
     @Bind(R.id.fg_food_name_text) TextView foodNameText;
     @Bind(R.id.fg_food_order_button) Button foodOrderButton;
+    @Bind(R.id.fg_food_fragment_favorite_button) ImageButton foodFavoriteButton;
 
     /** INITIALIZATION FUNCTIONALITY ___________________________________________________________ **/
 
@@ -108,7 +115,41 @@ public class FGFoodFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                // TODO: Define action for ordering food here.
+
+                // Signals the attached parent activity to display the FGRestaurantListFragment.
+                displayRestaurantListFragment(true, foodName);
+                // TODO: Define action for ordering food here. Call interface method to display
+                // restaurant list fragment.
+            }
+        });
+
+        // FOOD FAVORITE BUTTON:
+        foodFavoriteButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // UNFAVORITE: Signals parent activity to remove food from list of favorites.
+                if (isFavorite) {
+
+                    // Updates the star image.
+                    Picasso.with(currentActivity)
+                            .load(R.drawable.abc_btn_rating_star_off_mtrl_alpha)
+                            .into(foodFavoriteButton);
+
+                    // TODO: Call an interface method to signal the removal of favorite food.
+                }
+
+                // FAVORITE: Signals parent activity to add food to the list of favorites.
+                else {
+
+                    // Updates the star image.
+                    Picasso.with(currentActivity)
+                            .load(R.drawable.abc_btn_rating_star_on_mtrl_alpha)
+                            .into(foodFavoriteButton);
+
+                    // TODO: Call an interface method to signal the addition of favorite food.
+                }
             }
         });
     }
@@ -118,7 +159,7 @@ public class FGFoodFragment extends Fragment {
 
         /*
         // Retrieves the food details from the foodModel.
-        //String food_name = foodModel.getFoodName(); // Gets the food name from the JSON string.
+        //food_name = foodModel.getFoodName(); // Gets the food name from the JSON string.
         //String food_image_url = foodModel.getFoodUrl(); // Gets the image URL from the JSON string.
 
         Log.d(TAG, "Food: " + foodNumber + " | Image URL: " + food_image_url); // Logging.
@@ -134,5 +175,13 @@ public class FGFoodFragment extends Fragment {
         // Sets the food text for the TextView objects.
         foodNameText.setText(food_name);
         */
+    }
+
+    /** INTERFACE METHODS ______________________________________________________________________ **/
+
+    // Signals parent activity to display the restaurant list fragment.
+    public void displayRestaurantListFragment(Boolean isDisplay, String food) {
+        try { ((OnFoodUpdateListener) currentActivity).displayRestaurantListFragment(true, food); }
+        catch (ClassCastException cce) { } // Catch for class cast exception errors.
     }
 }
