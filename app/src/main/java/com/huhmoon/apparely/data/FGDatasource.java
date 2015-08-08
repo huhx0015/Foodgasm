@@ -157,7 +157,7 @@ public class FGDatasource {
     // data read from the SQL database table.
     private FGFoodModel cursorToFood(Cursor cursor) {
 
-        FGFoodModel food = new FGFoodModel(); // Initializes the new FGFoodModel object.
+        FGFoodModel food = new FGFoodModel("some", "some"); // Initializes the new FGFoodModel object.
 
         /*
         // Stores the food data read from the cursor into the new FGFoodModel object.

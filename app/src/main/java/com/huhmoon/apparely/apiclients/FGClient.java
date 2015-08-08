@@ -1,31 +1,26 @@
-package com.huhmoon.apparely.retrofitapisubmodule.apiclients;
+package com.huhmoon.apparely.apiclients;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.huhmoon.apparely.retrofitapisubmodule.models.FoodDeserializer;
-import com.huhmoon.apparely.retrofitapisubmodule.models.FoodModel;
-import com.huhmoon.apparely.retrofitapisubmodule.models.FoodResponse;
+import com.huhmoon.apparely.data.FGFoodModel;
 
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import retrofit.http.GET;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
  * Created by ssureymoon on 8/8/15.
  */
-public class ApiClient {
+public class FGClient {
     private static FoodPornService sFoodPornService;
 
     public static FoodPornService get() {
         if (sFoodPornService == null) {
             Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(FoodResponse.class, new FoodDeserializer())
+                    .registerTypeAdapter(FGFoodModel.FoodResponse.class, new FGFoodModel.FoodDeserializer())
                     .create();
 
             RestAdapter restAdapter = new RestAdapter.Builder()
@@ -45,6 +40,6 @@ public class ApiClient {
                 @Query("sort") String sort,
                 @Query("t") String t,
                 @Query("limit") String limit,
-                Callback<FoodResponse> callback);
+                Callback<FGFoodModel.FoodResponse> callback);
     }
 }

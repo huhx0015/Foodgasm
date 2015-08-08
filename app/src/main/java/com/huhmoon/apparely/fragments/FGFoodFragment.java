@@ -3,6 +3,7 @@ package com.huhmoon.apparely.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGFoodModel;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
+import com.huhmoon.apparely.ui.graphics.FGImages;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -154,10 +156,10 @@ public class FGFoodFragment extends Fragment {
     // setUpFoodDetails(): Sets up the food image and name for the fragment.
     private void setUpFoodDetails() {
 
-        /*
+
         // Retrieves the food details from the foodModel.
-        //food_name = foodModel.getFoodName(); // Gets the food name from the JSON string.
-        //String food_image_url = foodModel.getFoodUrl(); // Gets the image URL from the JSON string.
+        String food_name = foodModel.getFoodName(); // Gets the food name from the JSON string.
+        String food_image_url = foodModel.getFoodUrl(); // Gets the image URL from the JSON string.
 
         Log.d(TAG, "Food: " + foodNumber + " | Image URL: " + food_image_url); // Logging.
 
@@ -167,11 +169,11 @@ public class FGFoodFragment extends Fragment {
                 .withOptions(FGImages.setBitmapOptions())
                 .fit()
                 .centerCrop()
-                .into(card_background_image);
+                .into(foodImage);
 
         // Sets the food text for the TextView objects.
         foodNameText.setText(food_name);
-        */
+
     }
 
     /** INTERFACE METHODS ______________________________________________________________________ **/

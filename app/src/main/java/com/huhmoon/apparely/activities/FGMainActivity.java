@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +20,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.huhmoon.apparely.R;
+import com.huhmoon.apparely.apiclients.FGClient;
 import com.huhmoon.apparely.data.FGFoodModel;
+import com.huhmoon.apparely.data.FGFoodModel.FoodResponse;
 import com.huhmoon.apparely.data.FGRestaurantModel;
 import com.huhmoon.apparely.fragments.FGFoodFragment;
 import com.huhmoon.apparely.fragments.FGRestaurantFragment;
@@ -28,12 +33,17 @@ import com.huhmoon.apparely.fragments.FGRestaurantListFragment;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
 import com.huhmoon.apparely.interfaces.OnRestaurantSelectedListener;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
+import com.squareup.picasso.Picasso;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateListener, OnRestaurantSelectedListener {
 
@@ -43,6 +53,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     private ArrayList<FGFoodModel> models; // References the ArrayList of FGFoodModel objects.
     private int currentFoodNumber = 0; // Used to determine which food fragment is currently being displayed.
     private int numberOfFoods = 1; // Used to determine how many food fragments are to be displayed.
+    private List<FGFoodModel> mFoodModelList;
 
     // LAYOUT VARIABLES
     private ActionBarDrawerToggle drawerToggle; // References the toolbar drawer toggle button.
@@ -311,9 +322,26 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     // retrieve the list of food.
     private void setUpFoodCards() {
 
-        /*
-        client = new FGClient("FLYSFO"); // Sets up the JSON client for retrieving SFO data.
+        FGClient client = new FGClient();
+        client.get().listFood("top", "all", "100", new Callback<FoodResponse>() {
 
+            @Override
+            public void success(FoodResponse model, Response response) {
+
+
+                mFoodModelList = FGFoodModel.parseFoodModel(model);
+                numberOfFoods = mFoodModelList.size();
+                setUpSlider(false); // Initializes the fragment slides for the PagerAdapter.
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.i("FAILURE", "error", error);
+                //Log.e("FAILURE", error.getStackTrace().toString());
+                //Toast.makeText(this, error.getStackTrace().toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+        /*
         // Attempts to retrieve the JSON data from the server.
         client.getJsonData(new JsonHttpResponseHandler() {
 
@@ -355,7 +383,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
 
             // Initializes the food card fragment and adds it to the deck.
             FGFoodFragment cardFragment = new FGFoodFragment();
-            cardFragment.initializeFragment(i, models.get(i));
+            cardFragment.initializeFragment(i, mFoodModelList.get(i));
             fragments.add(cardFragment);
         }
 
