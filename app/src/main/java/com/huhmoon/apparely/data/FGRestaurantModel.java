@@ -15,17 +15,16 @@ import java.util.List;
 public class FGRestaurantModel {
     String name;
     String url;
+    String address;
 
-    public String getImage(){
-        return url;
-    }
-    public String getName(){
-        return name;
-    }
+    public String getImage(){ return url; }
+    public String getName(){ return name; }
+    public String getAddress(){ return address; }
 
-    public FGRestaurantModel(String name, String url){
+    public FGRestaurantModel(String name, String url, String address){
         this.name = name;
         this.url = url;
+        this.address = address;
     }
 
 
@@ -34,13 +33,24 @@ public class FGRestaurantModel {
         String name;
         String url; //image_url
         JSONObject business;
+        JSONObject location;
+        JSONArray diplayAddresses;
+        String diplayAddress;
+
         for (int i=0;i<businesses.size();i++){
             business = (JSONObject) businesses.get(i);
             name = business.get("name").toString();
             url = business.get("image_url").toString();
-            restaurantModelList.add(new FGRestaurantModel(name, url));
+            location = (JSONObject) business.get("location");
+            diplayAddresses = (JSONArray) location.get("display_address");
+            diplayAddress = "";
+            for (int j=0;j<diplayAddresses.size();j++) {
+                diplayAddress += diplayAddresses.get(j);
+            }
+            restaurantModelList.add(new FGRestaurantModel(name, url, diplayAddress));
             Log.e("TESTTESTname", name);
             Log.e("TESTTESTurl", url);
+            Log.e("TESTTESaddress", diplayAddress);
         }
         return restaurantModelList;
     }

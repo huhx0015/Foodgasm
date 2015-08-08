@@ -367,7 +367,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     private void setUpFoodCards() {
 
         FGClient client = new FGClient();
-        client.get().listFood("top", "all", "100", new Callback<FoodResponse>() {
+        client.get().listFood("top", "all", "10", new Callback<FoodResponse>() {
 
             @Override
             public void success(FoodResponse model, Response response) {

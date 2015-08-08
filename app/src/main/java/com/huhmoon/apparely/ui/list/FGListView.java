@@ -63,7 +63,7 @@ public class FGListView extends RelativeLayout {
         // Sets the shortcut name and address for the shortcut row item.
         String imageRes = restaurant.getImage();
         restaurantName.setText(restaurant.getName());
-        //restaurantAddress.setText(restaurant.getAddress());
+        restaurantAddress.setText(restaurant.getAddress());
 
         // Sets up the rounded shape attributes for the ImageView object.
         Transformation transformation = new RoundedTransformationBuilder()

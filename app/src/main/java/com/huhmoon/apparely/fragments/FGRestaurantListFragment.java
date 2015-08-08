@@ -116,11 +116,10 @@ public class FGRestaurantListFragment extends Fragment {
 
 
 
-        //YelpAPI yelpApi = new YelpAPI();
-        //Log.i("YELP", yelpApi.searchForBusinessesByLocation(foodName, currentAddress));
+
 //        LinkedList<FGRestaurantModel> restaurantList =
 //
-//        // Sets up the ListView object and sets the appropriate adapter to it.
+//         Sets up the ListView object and sets the appropriate adapter to it.
         FGListAdapter adapterRestaurants = new FGListAdapter(currentActivity, currentActivity, restaurantList);
         restaurantListView.setAdapter(adapterRestaurants);
     }
@@ -188,12 +187,12 @@ public class FGRestaurantListFragment extends Fragment {
             YelpAPI yelpApi = new YelpAPI();
             Log.e("currentAddress", currentAddress.replaceAll("\n", ""));
             Log.e("foodName", foodName);
+            foodName = foodName.replaceAll("\\[.+\\]", "");
+                    Log.e("foodName after", foodName);
             mYelpResponse = yelpApi.searchForBusinessesByLocation(foodName, currentAddress.replaceAll("\n", ""));
             return null;
         }
     }
-
-
 
 
 }
