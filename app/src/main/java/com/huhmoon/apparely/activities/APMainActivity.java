@@ -1,6 +1,7 @@
 package com.huhmoon.apparely.activities;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,15 +14,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.fragments.APDummyFragment;
+import com.huhmoon.apparely.fragments.APResultsFragment;
 import com.huhmoon.apparely.fragments.APScannerFragment;
+import com.huhmoon.apparely.interfaces.OnScanResultsListener;
 import com.huhmoon.apparely.ui.layout.APUnbind;
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -29,7 +33,7 @@ import java.util.Vector;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class APMainActivity extends AppCompatActivity {
+public class APMainActivity extends AppCompatActivity implements OnScanResultsListener {
 
     /** CLASS VARIABLES ________________________________________________________________________ **/
 
@@ -204,6 +208,130 @@ public class APMainActivity extends AppCompatActivity {
     }
     */
 
+    /** FRAGMENT FUNCTIONALITY _________________________________________________________________ **/
+
+    // setUpFragment(): Sets up the fragment view and the fragment view animation.
+    private void setUpFragment(Fragment fragment, final String fragType, Boolean isAnimated) {
+
+        if ((weakRefActivity.get() != null) && (!weakRefActivity.get().isFinishing())) {
+
+            // Initializes the manager and transaction objects for the fragments.
+            android.support.v4.app.FragmentManager fragMan = weakRefActivity.get().getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction fragTrans = fragMan.beginTransaction();
+            fragTrans.replace(R.id.ap_main_fragment_container, fragment);
+
+            // Makes the changes to the fragment manager and transaction objects.
+            fragTrans.addToBackStack(null);
+            fragTrans.commitAllowingStateLoss();
+
+            // Sets up the transition animation.
+            if (isAnimated) {
+
+                int animationResource; // References the animation XML resource file.
+
+                // Sets the animation XML resource file, based on the fragment type.
+                if (fragType.equals("SCAN_SUCCESS")) { animationResource = R.anim.slide_up; } // SCAN RESULTS
+                else { animationResource = R.anim.slide_down; }
+
+                final Animation fragmentAnimation = AnimationUtils.loadAnimation(this, animationResource);
+
+                // Sets the AnimationListener for the animation.
+                fragmentAnimation.setAnimationListener(new Animation.AnimationListener() {
+
+                    // onAnimationStart(): Runs when the animation is started.
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        fragmentContainer.setVisibility(View.VISIBLE); // Displays the fragment.
+                    }
+
+                    // onAnimationEnd(): The fragment is removed after the animation ends.
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                    }
+
+                    // onAnimationRepeat(): Runs when the animation is repeated.
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+
+                // Runs on the UI thread.
+                runOnUiThread(new Runnable() {
+
+                    // Updates the layout view.
+                    public void run() {
+                        fragmentContainer.startAnimation(fragmentAnimation); // Starts the animation.
+                    }
+                });
+            }
+
+            // Displays the fragment view without any transition animations.
+            else {
+
+                // Runs on the UI thread.
+                runOnUiThread(new Runnable() {
+
+                    // Updates the layout view.
+                    public void run() {
+                        fragmentContainer.setVisibility(View.VISIBLE); // Displays the fragment.
+                    }
+                });
+            }
+        }
+    }
+
+    // removeFragment(): This method is responsible for displaying the remove fragment animation, as
+    // well as removing the fragment view.
+    private void removeFragment(final String fragType) {
+
+        if ((weakRefActivity.get() != null) && (!weakRefActivity.get().isFinishing())) {
+
+            int animationResource; // References the animation XML resource file.
+
+            // SCAN RESULTS:
+            if (fragType.equals("SCAN_SUCCESS")) {
+                animationResource = R.anim.slide_down; // Sets the animation XML resource file.
+            }
+
+            else { animationResource = R.anim.slide_up; } // Sets the animation XML resource file.
+
+            Animation fragmentAnimation = AnimationUtils.loadAnimation(this, animationResource);
+
+            // Sets the AnimationListener for the animation.
+            fragmentAnimation.setAnimationListener(new Animation.AnimationListener() {
+
+                // onAnimationStart(): Runs when the animation is started.
+                @Override
+                public void onAnimationStart(Animation animation) {}
+
+                // onAnimationEnd(): The fragment is removed after the animation ends.
+                @Override
+                public void onAnimationEnd(Animation animation) {
+
+                    // Initializes the manager and transaction objects for the fragments.
+                    FragmentManager fragMan = getSupportFragmentManager();
+                    fragMan.popBackStack(); // Pops the fragment from the stack.
+                    fragmentContainer.removeAllViews(); // Removes all views in the layout.
+
+                    // Indicates that the fragment is no longer active.
+                    if (fragType.equals("SCAN_SUCCESS")) {
+                        showFragment = false;
+                    }
+
+                    fragmentContainer.setVisibility(View.INVISIBLE); // Hides the fragment.
+                    isRemovingFragment = false; // Indicates that the fragment is no longer being removed.
+                }
+
+                // onAnimationRepeat(): Runs when the animation is repeated.
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+
+            fragmentContainer.startAnimation(fragmentAnimation); // Starts the animation.
+        }
+    }
+
     /** SLIDER FUNCTIONALITY ___________________________________________________________________ **/
 
     // createSlideFragments(): Sets up the slide fragments for the PagerAdapter object.
@@ -231,10 +359,12 @@ public class APMainActivity extends AppCompatActivity {
         page.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             // onPageScrollStateChanged(): Called the page scroll state is changed.
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
 
             // onPageScrolled(): Called when the pages are scrolled.
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             // onPageSelected(): Called when a new page is selected.
             public void onPageSelected(int position) {
@@ -378,5 +508,24 @@ public class APMainActivity extends AppCompatActivity {
         // Unbinds all Drawable objects attached to the current layout.
         try { APUnbind.unbindDrawables(findViewById(R.id.ap_main_activity_layout)); }
         catch (NullPointerException e) { e.printStackTrace(); } // Prints error message.
+    }
+
+    /** INTERFACE METHODS ______________________________________________________________________ **/
+
+    @Override
+    public void displayResultsFragment(String upc, Boolean isDisplay) {
+
+        // Displays the APResultsFragment view only if the fragment is not being shown.
+        if (isDisplay && !showFragment) {
+            showFragment = true;
+            APResultsFragment resultsFragment = new APResultsFragment();
+            resultsFragment.initializeFragment(upc);
+            setUpFragment(resultsFragment, "SCAN_SUCCESS", true);
+        }
+
+        // Hides the APResultsFragment view.
+        else {
+            removeFragment("SCAN_SUCCESS");
+        }
     }
 }

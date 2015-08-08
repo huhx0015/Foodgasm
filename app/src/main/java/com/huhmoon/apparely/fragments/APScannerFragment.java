@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.huhmoon.apparely.R;
+import com.huhmoon.apparely.interfaces.OnScanResultsListener;
 import com.mirasense.scanditsdk.ScanditSDKAutoAdjustingBarcodePicker;
 import com.mirasense.scanditsdk.interfaces.ScanditSDK;
 import com.mirasense.scanditsdk.interfaces.ScanditSDKCode;
@@ -23,6 +24,9 @@ public class APScannerFragment extends Fragment implements ScanditSDKOnScanListe
     /** CLASS VARIABLES ________________________________________________________________________ **/
 
     private Activity currentActivity;
+
+    // LOGGING VARIABLES
+    private static final String LOG_TAG = APScannerFragment.class.getSimpleName();
 
     // The main object for recognizing a displaying barcodes.
     private ScanditSDK mBarcodePicker;
@@ -107,23 +111,40 @@ public class APScannerFragment extends Fragment implements ScanditSDKOnScanListe
      */
     public void didScan(ScanditSDKScanSession session) {
         String message = "";
+
         for (ScanditSDKCode code : session.getNewlyDecodedCodes()) {
             String data = code.getData();
+
             // truncate code to certain length
             String cleanData = data;
             if (data.length() > 30) {
                 cleanData = data.substring(0, 25) + "[...]";
             }
+
             if (message.length() > 0) {
                 message += "\n\n\n";
             }
+
             message += cleanData;
             message += "\n\n(" + code.getSymbologyString() + ")";
         }
+
         if (mToast != null) {
             mToast.cancel();
         }
+
         mToast = Toast.makeText(currentActivity, message, Toast.LENGTH_LONG);
         mToast.show();
+
+        // Signals the parent activity to display the APResultsFragment.
+        displayResultsFragment(message, true);
+    }
+
+    /** INTERFACE METHODS ______________________________________________________________________ **/
+
+    // Signals parent activity to display the results fragment.
+    public void displayResultsFragment(String upc, Boolean isDisplay) {
+        try { ((OnScanResultsListener) currentActivity).displayResultsFragment(upc, isDisplay); }
+        catch (ClassCastException cce) { } // Catch for class cast exception errors.
     }
 }
