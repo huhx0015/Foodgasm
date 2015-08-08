@@ -22,13 +22,10 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.apiclients.FGClient;
 import com.huhmoon.apparely.data.FGFoodModel;
 import com.huhmoon.apparely.data.FGFoodModel.FoodResponse;
-import com.huhmoon.apparely.data.FGImageStore;
 import com.huhmoon.apparely.data.FGRestaurantModel;
 import com.huhmoon.apparely.fragments.FGFoodFragment;
 import com.huhmoon.apparely.fragments.FGRestaurantFragment;
@@ -40,8 +37,6 @@ import com.huhmoon.apparely.interfaces.OnRestaurantSelectedListener;
 import com.huhmoon.apparely.preferences.FGPreferences;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
 import com.huhmoon.apparely.ui.toast.FGToast;
-import com.squareup.picasso.Picasso;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
