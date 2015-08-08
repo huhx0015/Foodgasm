@@ -13,21 +13,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGFoodModel;
 import com.huhmoon.apparely.fragments.APResultsFragment;
 import com.huhmoon.apparely.fragments.FGFoodFragment;
 import com.huhmoon.apparely.interfaces.OnScanResultsListener;
-import com.huhmoon.apparely.ui.layout.APUnbind;
-
+import com.huhmoon.apparely.ui.layout.FGUnbind;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +51,8 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
     private static WeakReference<FGMainActivity> weakRefActivity = null; // Used to maintain a weak reference to the activity.
 
     // VIEW INJECTION VARIABLES
-    @Bind(R.id.ap_main_fragment_container) FrameLayout fragmentContainer; // Used to reference the FrameLayout object that contains the fragment.
-    @Bind(R.id.ap_main_toolbar) Toolbar mainToolbar; // Used for referencing the Toolbar object.
+    @Bind(R.id.fg_main_fragment_container) FrameLayout fragmentContainer; // Used to reference the FrameLayout object that contains the fragment.
+    @Bind(R.id.fg_main_toolbar) Toolbar mainToolbar; // Used for referencing the Toolbar object.
     
     /** ACTIVITY LIFECYCLE FUNCTIONALITY _______________________________________________________ **/
 
@@ -91,7 +88,7 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflates the menu settings specified in menu.xml.
-        getMenuInflater().inflate(R.menu.ap_main_activity_menu, menu);
+        getMenuInflater().inflate(R.menu.fg_main_activity_menu, menu);
         return true;
     }
 
@@ -184,7 +181,7 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
             // Initializes the manager and transaction objects for the fragments.
             android.support.v4.app.FragmentManager fragMan = weakRefActivity.get().getSupportFragmentManager();
             android.support.v4.app.FragmentTransaction fragTrans = fragMan.beginTransaction();
-            fragTrans.replace(R.id.ap_main_fragment_container, fragment);
+            fragTrans.replace(R.id.fg_main_fragment_container, fragment);
 
             // Makes the changes to the fragment manager and transaction objects.
             fragTrans.addToBackStack(null);
@@ -362,10 +359,12 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
         page.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             // onPageScrollStateChanged(): Called the page scroll state is changed.
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
 
             // onPageScrolled(): Called when the pages are scrolled.
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             // onPageSelected(): Called when a new page is selected.
             public void onPageSelected(int position) {
@@ -427,8 +426,8 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
 
         // Sets the references for the Drawer-related objects.
         String[] apDrawerOptions = getResources().getStringArray(R.array.drawer_options);
-        DrawerLayout apDrawerLayout = (DrawerLayout) findViewById(R.id.ap_drawer_layout);
-        ListView apDrawerList = (ListView) findViewById(R.id.ap_main_left_drawer_list);
+        DrawerLayout apDrawerLayout = (DrawerLayout) findViewById(R.id.fg_drawer_layout);
+        ListView apDrawerList = (ListView) findViewById(R.id.fg_main_left_drawer_list);
 
         // Initializes the Material Design style Toolbar object for the activity.
         if (mainToolbar != null) {
@@ -456,7 +455,7 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
         apDrawerLayout.setDrawerListener(drawerToggle); // Sets the listener for the toggle button.
 
         // Sets the adapter for the drawer list view.
-        apDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.ap_drawer_list, apDrawerOptions));
+        apDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.fg_drawer_list, apDrawerOptions));
 
         // Retrieves the DrawerLayout to set the status bar color. This only takes effect on Lollipop,
         // or when using translucentStatusBar on KitKat.
@@ -470,7 +469,7 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
     private void recycleMemory() {
 
         // Unbinds all Drawable objects attached to the current layout.
-        try { APUnbind.unbindDrawables(findViewById(R.id.ap_main_activity_layout)); }
+        try { FGUnbind.unbindDrawables(findViewById(R.id.fg_main_activity_layout)); }
         catch (NullPointerException e) { e.printStackTrace(); } // Prints error message.
     }
 

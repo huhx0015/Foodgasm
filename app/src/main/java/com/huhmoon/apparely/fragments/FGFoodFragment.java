@@ -34,10 +34,6 @@ public class FGFoodFragment extends Fragment {
     // FRAGMENT VARIABLES
     private View food_view; // References the layout for the fragment.
 
-    // LAYOUT VARIABLES
-    private ImageView card_background_image, main_card_image; // References the ImageView objects in the fragment.
-    private int main_card_image_resource; // Used to reference the main card image.
-
     // LOGGING VARIABLES
     private static final String TAG = FGFoodFragment.class.getSimpleName(); // Retrieves the simple name of the class.
 

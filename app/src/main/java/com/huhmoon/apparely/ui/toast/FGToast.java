@@ -7,7 +7,7 @@ package com.huhmoon.apparely.ui.toast;
 import android.content.Context;
 import android.widget.Toast;
 
-public class APToast {
+public class FGToast {
 
     /** TOAST FUNCTIONALITY ____________________________________________________________________ **/
 
