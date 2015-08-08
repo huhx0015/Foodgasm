@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="drawer_options">
+        <item>DRAWER ITEM 1</item>
+        <item>DRAWER ITEM 2</item>
+    </string-array>
+</resources>
