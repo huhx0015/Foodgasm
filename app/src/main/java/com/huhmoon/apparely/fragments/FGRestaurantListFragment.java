@@ -7,11 +7,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.huhmoon.apparely.R;
+import com.huhmoon.apparely.data.FGRestaurantModel;
 import com.huhmoon.apparely.location.FGLocation;
 import com.huhmoon.apparely.location.FGLocationListener;
+import com.huhmoon.apparely.ui.list.FGListAdapter;
+
+import java.util.LinkedList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +44,7 @@ public class FGRestaurantListFragment extends Fragment {
 
     // VIEW INJECTION VARIABLES
     @Bind(R.id.fg_restaurant_my_address_text)  TextView myAddress;
+    @Bind(R.id.fg_restaurant_list) ListView restaurantListView;
 
 
     /** INITIALIZATION FUNCTIONALITY ___________________________________________________________ **/
@@ -94,6 +100,16 @@ public class FGRestaurantListFragment extends Fragment {
         // background, using an AsyncTask class.
         FGRetrieveLocation retrieveLocation = new FGRetrieveLocation();
         retrieveLocation.execute();
+    }
+
+    private void setUpList() {
+
+        // Creates the LinkedList of restaurants. Populate the list of restaurants here.
+        //LinkedList<FGRestaurantModel> restaurantList =
+
+        // Sets up the ListView object and sets the appropriate adapter to it.
+        //FGListAdapter adapterRestaurants = new FGListAdapter(currentActivity, currentActivity, restaurantList);
+        //restaurantListView.setAdapter(adapterRestaurants);
     }
 
     /** ASYNCTASK METHODS ______________________________________________________________________ **/
