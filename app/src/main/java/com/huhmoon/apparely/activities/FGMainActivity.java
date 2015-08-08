@@ -22,13 +22,10 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.apiclients.FGClient;
-import com.huhmoon.apparely.data.FGFoodModel;
-import com.huhmoon.apparely.data.FGFoodModel.FoodResponse;
-import com.huhmoon.apparely.data.FGImageStore;
+import com.huhmoon.library.data.FGFoodModel;
+import com.huhmoon.library.data.FGFoodModel.FoodResponse;
 import com.huhmoon.apparely.data.FGRestaurantModel;
 import com.huhmoon.apparely.fragments.FGFoodFragment;
 import com.huhmoon.apparely.fragments.FGRestaurantFragment;
@@ -39,9 +36,7 @@ import com.huhmoon.apparely.interfaces.OnImageSaveListener;
 import com.huhmoon.apparely.interfaces.OnRestaurantSelectedListener;
 import com.huhmoon.apparely.preferences.FGPreferences;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
-import com.huhmoon.apparely.ui.toast.FGToast;
-import com.squareup.picasso.Picasso;
-
+import com.huhmoon.library.FGToast;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -470,7 +465,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
         // created from createSlideFragments.
         PagerAdapter dgPageAdapter = new FragmentListPagerAdapter(getSupportFragmentManager(), createSlideFragments(numberOfFoods));
 
-        apViewPager = (ViewPager) super.findViewById(R.id.ap_main_activity_fragment_pager);
+        apViewPager = (ViewPager) super.findViewById(R.id.fg_main_activity_fragment_pager);
         apViewPager.setAdapter(dgPageAdapter); // Sets the PagerAdapter object for the activity.
 
         setPageListener(apViewPager); // Sets up the listener for the pager object.

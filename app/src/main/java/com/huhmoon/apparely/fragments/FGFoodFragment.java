@@ -1,7 +1,6 @@
 package com.huhmoon.apparely.fragments;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,11 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huhmoon.apparely.R;
-import com.huhmoon.apparely.data.FGFoodModel;
+import com.huhmoon.library.data.FGFoodModel;
 import com.huhmoon.apparely.data.FGImageStore;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
 import com.huhmoon.apparely.interfaces.OnImageSaveListener;
-import com.huhmoon.apparely.preferences.FGPreferences;
 import com.huhmoon.apparely.ui.graphics.FGImages;
 
 import butterknife.Bind;

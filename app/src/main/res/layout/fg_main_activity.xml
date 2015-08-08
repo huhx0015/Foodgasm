@@ -31,21 +31,21 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/ap_main_subcontent_parent_container">
+                android:id="@+id/fg_main_subcontent_parent_container">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
                     android:background="@drawable/fg_toolbar_drop_shadow"
-                    android:id="@+id/ap_toolbar_drop_shadow" />
+                    android:id="@+id/fg_toolbar_drop_shadow" />
 
                 <FrameLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/ap_main_subcontent_frame">
+                    android:id="@+id/fg_main_subcontent_frame">
 
                     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/ap_main_activity_fragment_pager"
+                        android:id="@+id/fg_main_activity_fragment_pager"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:background="@android:color/white">

@@ -6,10 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGRestaurantModel;
+import com.huhmoon.apparely.intent.FGNavIntent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +34,9 @@ public class FGRestaurantFragment extends Fragment {
 
     // SYSTEM VARIABLES
     private Activity currentActivity; // Used to determine the activity class this fragment is currently attached to.
+
+    // VIEW INJECTION VARIABLES
+    @Bind(R.id.fg_restaurant_navigation_button) Button navButton;
 
     /** INITIALIZATION FUNCTIONALITY ___________________________________________________________ **/
 
@@ -81,6 +86,21 @@ public class FGRestaurantFragment extends Fragment {
     /** LAYOUT METHODS _________________________________________________________________________ **/
 
     private void setUpLayout() {
+        setUpButtons();
+    }
 
+    private void setUpButtons() {
+
+        // NAVIGATION BUTTON:
+        navButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // TODO: Launches Google Maps in Navigation Mode. Test address used.
+                //FGNavIntent.launchNavigation(currentRestaurant.getAddress());
+                FGNavIntent.launchNavigation("Pizza Hut", currentActivity);
+            }
+        });
     }
 }
