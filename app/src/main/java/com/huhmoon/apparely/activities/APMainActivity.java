@@ -1,4 +1,4 @@
-package com.huhmoon.apparely;
+package com.huhmoon.apparely.activities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,6 +18,9 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.huhmoon.apparely.R;
+import com.huhmoon.apparely.fragments.APDummyFragment;
 import com.huhmoon.apparely.fragments.APScannerFragment;
 import com.huhmoon.apparely.ui.layout.APUnbind;
 import java.lang.ref.WeakReference;
@@ -209,9 +212,9 @@ public class APMainActivity extends AppCompatActivity {
         final List<Fragment> fragments = new Vector<Fragment>(); // List of fragments in which the fragments is stored.
 
         // Initializes the fragment objects for the slider.
-        APScannerFragment firstFragment = new APScannerFragment();
+        APDummyFragment firstFragment = new APDummyFragment();
         APScannerFragment secondFragment = new APScannerFragment();
-        APScannerFragment thirdFragment = new APScannerFragment();
+        APDummyFragment thirdFragment = new APDummyFragment();
 
         // Sets up the fragment list for the PagerAdapter object.
         fragments.add(firstFragment); // Adds the firstFragment fragment to the List<Fragment> object.
@@ -269,8 +272,7 @@ public class APMainActivity extends AppCompatActivity {
 
         apViewPager = (ViewPager) super.findViewById(R.id.ap_main_activity_fragment_pager);
         apViewPager.setAdapter(dgPageAdapter); // Sets the PagerAdapter object for the activity.
-
-        apViewPager.setOffscreenPageLimit(3); // Sets the off page limit.
+        apViewPager.setOffscreenPageLimit(3); // Sets the off page limit for three fragments.
 
         setPageListener(apViewPager); // Sets up the listener for the pager object.
     }

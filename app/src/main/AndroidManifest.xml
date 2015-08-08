@@ -25,7 +25,7 @@
         android:alwaysRetainTaskState="true">
 
         <activity
-            android:name="com.huhmoon.apparely.APMainActivity"
+            android:name=".activities.APMainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
 
