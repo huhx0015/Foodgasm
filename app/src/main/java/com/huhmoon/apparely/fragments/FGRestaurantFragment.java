@@ -97,8 +97,9 @@ public class FGRestaurantFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                // TODO: Launches Google Maps in Navigation Mode.
+                // TODO: Launches Google Maps in Navigation Mode. Test address used.
                 //FGNavIntent.launchNavigation(currentRestaurant.getAddress());
+                FGNavIntent.launchNavigation("Pizza Hut", currentActivity);
             }
         });
     }
