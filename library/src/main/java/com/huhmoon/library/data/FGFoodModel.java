@@ -1,4 +1,4 @@
-package com.huhmoon.apparely.data;
+package com.huhmoon.library.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
@@ -6,7 +6,6 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,7 @@ package com.huhmoon.apparely.apiclients;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.huhmoon.apparely.data.FGFoodModel;
+import com.huhmoon.library.data.FGFoodModel;
 
 
 import retrofit.Callback;

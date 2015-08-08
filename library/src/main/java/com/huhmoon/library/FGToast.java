@@ -1,4 +1,4 @@
-package com.huhmoon.apparely.ui.toast;
+package com.huhmoon.library;
 
 /**
  * Created by Michael Yoon Huh on 8/7/2015.
