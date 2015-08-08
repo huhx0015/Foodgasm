@@ -36,7 +36,7 @@ public class FGFoodSync {
         // device to know how many foods it should expect to receive.
         wearDataMap.getDataMap().putInt("fg_number_of_foods", numberOfFoods);
 
-        // Prepares each shortcut for data transmission to the Android Wear device.
+        // Prepares each food for data transmission to the Android Wear device.
         for (int i = 0; i < numberOfFoods; i++) {
 
             // Converts FGFoodModel data into a String using Gson to Json functionality.
@@ -44,7 +44,7 @@ public class FGFoodSync {
 
             // Places the data into a data sync form.
             Log.d(LOG_TAG, "Sending food data to wear: " + i);
-            wearDataMap.getDataMap().putString("fg_shortcut_" + i, currentFood);
+            wearDataMap.getDataMap().putString("fg_food_" + i, currentFood);
         }
     }
 
@@ -71,12 +71,12 @@ public class FGFoodSync {
         Log.d(LOG_TAG, "receive(): dataMapItem: " + dataMapItem);
 
         // Retrieves the number of foods being received from the paired Android device.
-        final int numberOfShortcuts = dataMapItem.getDataMap().getInt("gtn_number_of_shortcuts");
+        final int numberOfShortcuts = dataMapItem.getDataMap().getInt("fg_number_of_foods");
 
         // Prepares a new LinkedList object containing FGFoodModel received from the mobile device.
         LinkedList<FGFoodModel> foods = new LinkedList<>();
 
-        // Processes each received shortcut and adds it into the LinkedList object.
+        // Processes each received food and adds it into the LinkedList object.
         for (int i = 0; i < numberOfShortcuts; i++) {
 
             String foodJson = dataMapItem.getDataMap().getString("fg_food_" + i);
@@ -90,7 +90,7 @@ public class FGFoodSync {
                 return null;
             }
 
-            foods.add(recievedFoods); // Adds the received shortcut into the FGFoodModel list.
+            foods.add(recievedFoods); // Adds the received foods into the FGFoodModel list.
         }
 
         return foods; // Returns the LinkedList object.

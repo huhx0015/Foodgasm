@@ -214,21 +214,21 @@ public class FGWearableListener extends WearableListenerService {
         final String path = uri != null ? uri.getPath() : null;
         Log.d(LOG_TAG, "onNonLocalDataItem(): item: " + item + "| uri: " + uri + "| path: " + path);
 
-        LinkedList<FGFoodModel> shortcuts = FGFoodSync.receive(item); // Handles the received data.
-        //FGApplication.instance.recreateDatabase(shortcuts); // Recreates the database.
+        LinkedList<FGFoodModel> foods = FGFoodSync.receive(item); // Handles the received data.
+        //FGApplication.instance.recreateDatabase(foods); // Recreates the database.
     }
 
     // sendOutgoingData(): Sends outgoing data from the mobile/wear device.
-    public static void sendOutgoingData(final Context context, final GoogleApiClient wearGoogleApiClient, LinkedList<FGFoodModel> shortcuts) {
+    public static void sendOutgoingData(final Context context, final GoogleApiClient wearGoogleApiClient, LinkedList<FGFoodModel> foods) {
 
         Log.d(LOG_TAG, "sendOutgoingData(): wearGoogleApiClient: " + wearGoogleApiClient);
 
-        String path = context.getFilesDir() + "/gtndata"; // Stores the path location to the data.
+        String path = context.getFilesDir() + "/fgdata"; // Stores the path location to the data.
 
         // Sync Data with a Data Map:
         PutDataMapRequest wearDataMap = PutDataMapRequest.create(path); // Setting the path of the data item.
 
-        FGFoodSync.send(wearDataMap, shortcuts); // Processes the FGFoodModel into String objects.
+        FGFoodSync.send(wearDataMap, foods); // Processes the FGFoodModel into String objects.
 
         // BUGFIX: This addresses an issue where data synchronization on some data objects to
         // Android Wear devices would occasionally stall, with Wear devices assuming that no data
