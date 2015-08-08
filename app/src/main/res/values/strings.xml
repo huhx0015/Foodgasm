@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Apparely</string>
+    <string name="version">4.7.0BETA6</string>
+    <string name="action_settings">Settings</string>
+</resources>
