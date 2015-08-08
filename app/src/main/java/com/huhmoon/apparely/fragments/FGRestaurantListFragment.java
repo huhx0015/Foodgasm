@@ -115,7 +115,7 @@ public class FGRestaurantListFragment extends Fragment {
                 @Override
                 public void run() {
                     // TODO: Retrieve the address and update the list of restaurants here.
-                    // getRestaurantList(currentAddress);
+                    // getRestaurantList(foodName, currentAddress);
                 }
             });
         }

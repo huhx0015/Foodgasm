@@ -23,6 +23,8 @@ import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGFoodModel;
 import com.huhmoon.apparely.fragments.APResultsFragment;
 import com.huhmoon.apparely.fragments.FGFoodFragment;
+import com.huhmoon.apparely.fragments.FGRestaurantListFragment;
+import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
 import com.huhmoon.apparely.interfaces.OnScanResultsListener;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
 import java.lang.ref.WeakReference;
@@ -32,7 +34,7 @@ import java.util.Vector;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class FGMainActivity extends AppCompatActivity implements OnScanResultsListener {
+public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateListener {
 
     /** CLASS VARIABLES ________________________________________________________________________ **/
 
@@ -193,7 +195,7 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
                 int animationResource; // References the animation XML resource file.
 
                 // Sets the animation XML resource file, based on the fragment type.
-                if (fragType.equals("SCAN_SUCCESS")) { animationResource = R.anim.slide_up; } // SCAN RESULTS
+                if (fragType.equals("RESTAURANT_LIST")) { animationResource = R.anim.slide_up; } // SCAN RESULTS
                 else { animationResource = R.anim.slide_down; }
 
                 final Animation fragmentAnimation = AnimationUtils.loadAnimation(this, animationResource);
@@ -277,7 +279,7 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
                     fragmentContainer.removeAllViews(); // Removes all views in the layout.
 
                     // Indicates that the fragment is no longer active.
-                    if (fragType.equals("SCAN_SUCCESS")) {
+                    if (fragType.equals("RESTAURANT_LIST")) {
                         showFragment = false;
                     }
 
@@ -476,19 +478,19 @@ public class FGMainActivity extends AppCompatActivity implements OnScanResultsLi
     /** INTERFACE METHODS ______________________________________________________________________ **/
 
     @Override
-    public void displayResultsFragment(String upc, Boolean isDisplay) {
+    public void displayRestaurantListFragment(Boolean isDisplay, String foodName) {
 
-        // Displays the APResultsFragment view only if the fragment is not being shown.
+        // Displays the FGRestaurantListFragment view only if the fragment is not being shown.
         if (isDisplay && !showFragment) {
             showFragment = true;
-            APResultsFragment resultsFragment = new APResultsFragment();
-            resultsFragment.initializeFragment(upc);
-            setUpFragment(resultsFragment, "SCAN_SUCCESS", true);
+            FGRestaurantListFragment restaurantListFragment = new FGRestaurantListFragment();
+            restaurantListFragment.initializeFragment(foodName);
+            setUpFragment(restaurantListFragment, "RESTAURANT_LIST", true);
         }
 
         // Hides the APResultsFragment view.
         else {
-            removeFragment("SCAN_SUCCESS");
+            removeFragment("RESTAURANT_LIST");
         }
     }
 }
