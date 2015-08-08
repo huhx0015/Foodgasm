@@ -57,6 +57,13 @@
                         android:id="@+id/fg_main_fragment_container"></FrameLayout>
 
                 </FrameLayout>
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fg_main_progress_bar"
+                    android:layout_gravity="center" />
             </FrameLayout>
 
         </LinearLayout>

@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.huhmoon.apparely.R;
@@ -38,6 +39,7 @@ import com.huhmoon.apparely.interfaces.OnImageSaveListener;
 import com.huhmoon.apparely.interfaces.OnRestaurantSelectedListener;
 import com.huhmoon.apparely.preferences.FGPreferences;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
+import com.huhmoon.apparely.ui.toast.FGToast;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -58,6 +60,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     private ArrayList<FGFoodModel> models; // References the ArrayList of FGFoodModel objects.
     private int currentFoodNumber = 0; // Used to determine which food fragment is currently being displayed.
     private int numberOfFoods = 1; // Used to determine how many food fragments are to be displayed.
+    private Boolean isFoodLoaded = false; // Used to determine if the food fragments have been fully loaded.
     private List<FGFoodModel> mFoodModelList;
     private List<Fragment> foodFragments = new Vector<Fragment>(); // Stores the list of food fragments.
 
@@ -67,6 +70,9 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     private Boolean showRestaurant = false; // Used to determine if the restaurant fragment is currently being shown or not.
     private Boolean isRemovingFragment = false; // Used to determine if the fragment is currently being removed.
     private ViewPager apViewPager; // Used to reference the ViewPager object.
+
+    // LOGGING VARIABLES
+    private static final String LOG_TAG = FGMainActivity.class.getSimpleName();
 
     // PREFERENCE VARIABLES
     private SharedPreferences FG_prefs; // Main SharedPreferences objects that store settings for the application.
@@ -78,6 +84,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
 
     // VIEW INJECTION VARIABLES
     @Bind(R.id.fg_main_fragment_container) FrameLayout fragmentContainer; // Used to reference the FrameLayout object that contains the fragment.
+    @Bind(R.id.fg_main_progress_bar) ProgressBar readyProgressBar; // References the progress bar that is shown until the food images are ready.
     @Bind(R.id.fg_main_toolbar) Toolbar mainToolbar; // Used for referencing the Toolbar object.
     
     /** ACTIVITY LIFECYCLE FUNCTIONALITY _______________________________________________________ **/
@@ -143,11 +150,19 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     // onShareAction(): Defines the action to take if the Share menu option is selected.
     public void onShareAction(MenuItem item) {
 
-        saveCurrentFoodImage(); // Saves the current image to local storage.
-        loadPreferences(); // Loads the preference values to retrieve the current image path.
+        if (isFoodLoaded) {
 
-        // Shares the data with external activities.
-        FGShareIntent.shareIntent(currentImageFile, this);
+            saveCurrentFoodImage(); // Saves the current image to local storage.
+            loadPreferences(); // Loads the preference values to retrieve the current image path.
+
+            // Shares the data with external activities.
+            FGShareIntent.shareIntent(currentImageFile, this);
+        }
+
+        // Displays a toast message.
+        else {
+            FGToast.toastyPopUp("There are no food images to be shared yet.", this);
+        }
     }
 
     /** PHYSICAL BUTTON FUNCTIONALITY __________________________________________________________ **/
@@ -362,6 +377,8 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
             @Override
             public void success(FoodResponse model, Response response) {
 
+                readyProgressBar.setVisibility(View.GONE); // Hides the progress bar.
+                isFoodLoaded = true; // Indicates that the food images have been loaded.
 
                 mFoodModelList = FGFoodModel.parseFoodModel(model);
                 numberOfFoods = mFoodModelList.size();
@@ -559,6 +576,8 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
 
     // Signals FGFoodFragment to save the current food image to local storage.
     public void saveCurrentFoodImage() {
+
+        Log.d(LOG_TAG, "saveCurrentFoodImage(): Current food number is: " + currentFoodNumber);
 
         Fragment currentFragment = foodFragments.get(currentFoodNumber);
 

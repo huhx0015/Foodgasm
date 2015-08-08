@@ -62,6 +62,10 @@ public class FGImageStore {
             outputFileUri = Uri.fromFile(saveImageDirectory);
             fileOutput = new FileOutputStream(saveImageDirectory);
 
+            // Saves the current image file name into application preferences.
+            SharedPreferences FG_prefs = FGPreferences.initializePreferences(FG_OPTIONS, context);
+            FGPreferences.setCurrentImage(currentImageFile, FG_prefs);
+
             MediaScannerConnection.scanFile(context,
                     new String[]{saveLocationPath + "/" + currentImageFile}, null,
                     new MediaScannerConnection.OnScanCompletedListener() {
@@ -69,10 +73,6 @@ public class FGImageStore {
                         // onScanCompleted(): Runs when media scan has concluded.
                         @Override
                         public void onScanCompleted(String path, Uri uri) {
-
-                            // Saves the current image file name into application preferences.
-                            SharedPreferences FG_prefs = FGPreferences.initializePreferences(FG_OPTIONS, context);
-                            FGPreferences.setCurrentImage(currentImageFile, FG_prefs);
 
                             Log.i("ExternalStorage", "Scanned " + path + ":");
                             Log.i("ExternalStorage", "-> uri=" + uri);
