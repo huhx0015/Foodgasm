@@ -61,6 +61,9 @@ public class FGLocation {
 
                     // Assembles the fully appended StringBuilder into a String object.
                     String fullAddress = sbAddress.toString();
+
+                    FGToast.toastyPopUp("The address at (" + latitude + ", " + longitude + ") is: " + fullAddress, context);
+
                     return fullAddress;
                 }
 

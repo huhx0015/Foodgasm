@@ -135,7 +135,20 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     // onBackPressed(): Defines the action to take when the physical back button key is pressed.
     @Override
     public void onBackPressed() { 
-        finish(); // Finishes the activity.
+
+        // Removes the FGRestaurantListFragment fragment from the view.
+        if (showRestaurantList) {
+            removeFragment("RESTAURANT_LIST");
+        }
+
+        // Removes the FGRestaurantFragment fragment from the view.
+        else if (showRestaurant) {
+            removeFragment("RESTAURANT");
+        }
+
+        else {
+            finish(); // Finishes the activity.
+        }
     }
 
     /** LAYOUT FUNCTIONALITY ___________________________________________________________________ **/
@@ -397,12 +410,10 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
         page.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             // onPageScrollStateChanged(): Called the page scroll state is changed.
-            public void onPageScrollStateChanged(int state) {
-            }
+            public void onPageScrollStateChanged(int state) { }
 
             // onPageScrolled(): Called when the pages are scrolled.
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             // onPageSelected(): Called when a new page is selected.
             public void onPageSelected(int position) {
@@ -535,6 +546,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
 
         // Displays the FGRestaurantFragment view
         if (isDisplay) {
+            showRestaurantList = false;
             showRestaurant = true;
             FGRestaurantFragment restaurantFragment = new FGRestaurantFragment();
             restaurantFragment.initializeFragment(restaurant);

@@ -7,9 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.location.FGLocation;
 import com.huhmoon.apparely.location.FGLocationListener;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -32,6 +36,10 @@ public class FGRestaurantListFragment extends Fragment {
 
     // SYSTEM VARIABLES
     private Activity currentActivity; // Used to determine the activity class this fragment is currently attached to.
+
+    // VIEW INJECTION VARIABLES
+    @Bind(R.id.fg_restaurant_my_address_text)  TextView myAddress;
+
 
     /** INITIALIZATION FUNCTIONALITY ___________________________________________________________ **/
 
@@ -114,6 +122,9 @@ public class FGRestaurantListFragment extends Fragment {
 
                 @Override
                 public void run() {
+
+                    myAddress.setText(currentAddress); // TEST: Set the address.
+
                     // TODO: Retrieve the address and update the list of restaurants here.
                     // getRestaurantList(foodName, currentAddress);
                 }

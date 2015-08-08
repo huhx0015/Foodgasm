@@ -6,10 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGRestaurantModel;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
