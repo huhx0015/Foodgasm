@@ -1,6 +1,7 @@
 package com.huhmoon.apparely.fragments;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,7 +15,10 @@ import android.widget.TextView;
 
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGFoodModel;
+import com.huhmoon.apparely.data.FGImageStore;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
+import com.huhmoon.apparely.interfaces.OnImageSaveListener;
+import com.huhmoon.apparely.preferences.FGPreferences;
 import com.huhmoon.apparely.ui.graphics.FGImages;
 
 import butterknife.Bind;
@@ -25,7 +29,7 @@ import it.sephiroth.android.library.picasso.Picasso;
  * Created by Michael Yoon Huh on 8/8/2015.
  */
 
-public class FGFoodFragment extends Fragment {
+public class FGFoodFragment extends Fragment implements OnImageSaveListener {
 
     /** FRAGMENT VARIABLES _____________________________________________________________________ **/
 
@@ -182,5 +186,15 @@ public class FGFoodFragment extends Fragment {
     public void displayRestaurantListFragment(String food) {
         try { ((OnFoodUpdateListener) currentActivity).displayRestaurantListFragment(food, true); }
         catch (ClassCastException cce) { } // Catch for class cast exception errors.
+    }
+
+    // Called from parent activity if the share button is clicked.
+    @Override
+    public void saveCurrentImage(int foodId) {
+
+        // if this fragment ID matches the requested foodId, the image is saved.
+        if (foodNumber == foodId) {
+            FGImageStore.saveImage(foodImage, foodId, currentActivity);
+        }
     }
 }

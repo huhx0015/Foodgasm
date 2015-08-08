@@ -1,5 +1,6 @@
 package com.huhmoon.apparely.activities;
 
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -26,13 +27,16 @@ import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.apiclients.FGClient;
 import com.huhmoon.apparely.data.FGFoodModel;
 import com.huhmoon.apparely.data.FGFoodModel.FoodResponse;
+import com.huhmoon.apparely.data.FGImageStore;
 import com.huhmoon.apparely.data.FGRestaurantModel;
 import com.huhmoon.apparely.fragments.FGFoodFragment;
 import com.huhmoon.apparely.fragments.FGRestaurantFragment;
 import com.huhmoon.apparely.fragments.FGRestaurantListFragment;
 import com.huhmoon.apparely.intent.FGShareIntent;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
+import com.huhmoon.apparely.interfaces.OnImageSaveListener;
 import com.huhmoon.apparely.interfaces.OnRestaurantSelectedListener;
+import com.huhmoon.apparely.preferences.FGPreferences;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
 import com.squareup.picasso.Picasso;
 
@@ -55,6 +59,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     private int currentFoodNumber = 0; // Used to determine which food fragment is currently being displayed.
     private int numberOfFoods = 1; // Used to determine how many food fragments are to be displayed.
     private List<FGFoodModel> mFoodModelList;
+    private List<Fragment> foodFragments = new Vector<Fragment>(); // Stores the list of food fragments.
 
     // LAYOUT VARIABLES
     private ActionBarDrawerToggle drawerToggle; // References the toolbar drawer toggle button.
@@ -62,6 +67,11 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     private Boolean showRestaurant = false; // Used to determine if the restaurant fragment is currently being shown or not.
     private Boolean isRemovingFragment = false; // Used to determine if the fragment is currently being removed.
     private ViewPager apViewPager; // Used to reference the ViewPager object.
+
+    // PREFERENCE VARIABLES
+    private SharedPreferences FG_prefs; // Main SharedPreferences objects that store settings for the application.
+    private static final String FG_OPTIONS = "fg_options"; // Used to reference the name of the preference XML file.
+    private String currentImageFile = ""; // References the current image file name.
 
     // SYSTEM VARIABLES
     private static WeakReference<FGMainActivity> weakRefActivity = null; // Used to maintain a weak reference to the activity.
@@ -133,8 +143,11 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     // onShareAction(): Defines the action to take if the Share menu option is selected.
     public void onShareAction(MenuItem item) {
 
+        saveCurrentFoodImage(); // Saves the current image to local storage.
+        loadPreferences(); // Loads the preference values to retrieve the current image path.
+
         // Shares the data with external activities.
-        //FGShareIntent.shareIntent(currentImageFile, this);
+        FGShareIntent.shareIntent(currentImageFile, this);
     }
 
     /** PHYSICAL BUTTON FUNCTIONALITY __________________________________________________________ **/
@@ -397,7 +410,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     private List<Fragment> createSlideFragments(int numberOfSlides) {
 
         // List of fragments in which the fragments is stored.
-        final List<Fragment> fragments = new Vector<Fragment>();
+        foodFragments = new Vector<Fragment>();
 
         // Creates the card deck for the slider.
         for (int i = 0; i < numberOfSlides; i++) {
@@ -405,10 +418,10 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
             // Initializes the food card fragment and adds it to the deck.
             FGFoodFragment cardFragment = new FGFoodFragment();
             cardFragment.initializeFragment(i, mFoodModelList.get(i));
-            fragments.add(cardFragment);
+            foodFragments.add(cardFragment);
         }
 
-        return fragments;
+        return foodFragments;
     }
 
     // setPageListener(): Sets up the listener for the Pager Adapter object.
@@ -519,6 +532,18 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
         apDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.toolbarDarkColor));
     }
 
+    /** PREFERENCES METHODS ____________________________________________________________________ **/
+
+    // loadPreferences(): Loads the SharedPreference values from the stored SharedPreferences object.
+    private void loadPreferences() {
+
+        // Initializes the SharedPreferences object.
+        FG_prefs = FGPreferences.initializePreferences(FG_OPTIONS, this);
+
+        // Retrieves the current image file name.
+        currentImageFile = FGPreferences.getCurrentImage(FG_prefs);
+    }
+
     /** MEMORY FUNCTIONALITY ___________________________________________________________________ **/
 
     // recycleMemory(): Recycles ImageView and View objects to clear up memory resources prior to
@@ -531,6 +556,15 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     }
 
     /** INTERFACE METHODS ______________________________________________________________________ **/
+
+    // Signals FGFoodFragment to save the current food image to local storage.
+    public void saveCurrentFoodImage() {
+
+        Fragment currentFragment = foodFragments.get(currentFoodNumber);
+
+        try { ((OnImageSaveListener) currentFragment).saveCurrentImage(currentFoodNumber); }
+        catch (ClassCastException cce) { } // Catch for class cast exception errors.
+    }
 
     @Override
     public void displayRestaurantListFragment(String foodName, Boolean isDisplay) {
