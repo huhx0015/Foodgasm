@@ -120,6 +120,7 @@ public class FGFoodFragment extends Fragment implements OnImageSaveListener {
             public void onClick(View v) {
 
                 // Signals the attached parent activity to display the FGRestaurantListFragment.
+                foodName = foodModel.getFoodName();
                 displayRestaurantListFragment(foodName);
                 // TODO: Define action for ordering food here. Call interface method to display
                 // restaurant list fragment.

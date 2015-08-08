@@ -110,7 +110,7 @@ public class FGFoodModel {
             Image image = images.get(0);
             try {
                 url = image.getResolutions().get(3).getUrl().replaceAll("amp;", "");
-            } catch (Exception e) {
+            }catch (Exception e) {
                 url = image.getResolutions().get(2).getUrl().replaceAll("amp;", "");
             }
 

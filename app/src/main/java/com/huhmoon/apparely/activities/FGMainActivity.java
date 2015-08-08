@@ -592,6 +592,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
         if (isDisplay) {
             showRestaurantList = true;
             FGRestaurantListFragment restaurantListFragment = new FGRestaurantListFragment();
+            Log.d("FOODNAME", ""+foodName);
             restaurantListFragment.initializeFragment(foodName);
             setUpFragment(restaurantListFragment, "RESTAURANT_LIST", true);
         }

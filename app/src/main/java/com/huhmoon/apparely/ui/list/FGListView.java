@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGRestaurantModel;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 /**
@@ -60,8 +61,8 @@ public class FGListView extends RelativeLayout {
     public void setItem(FGRestaurantModel restaurant, Context con) {
 
         // Sets the shortcut name and address for the shortcut row item.
-        //String imageRes = restaurantImage.getImage();
-        //restaurantName.setText(restaurant.getName());
+        String imageRes = restaurant.getImage();
+        restaurantName.setText(restaurant.getName());
         //restaurantAddress.setText(restaurant.getAddress());
 
         // Sets up the rounded shape attributes for the ImageView object.
@@ -72,13 +73,13 @@ public class FGListView extends RelativeLayout {
                 .oval(false)
                 .build();
 
-        /*
+
         // Loads the type image into the ImageView object.
         Picasso.with(con)
                 .load(imageRes)
                 .transform(transformation)
                 .into(restaurantImage);
-                */
+
     }
 
     // setupChildren(): This method references the layout objects in the children view for the

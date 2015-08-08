@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,16 @@ import com.huhmoon.apparely.data.FGRestaurantModel;
 import com.huhmoon.apparely.location.FGLocation;
 import com.huhmoon.apparely.location.FGLocationListener;
 import com.huhmoon.apparely.ui.list.FGListAdapter;
+import com.huhmoon.apparely.yelp.YelpAPI;
+
+import org.json.JSONException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,7 +41,8 @@ public class FGRestaurantListFragment extends Fragment {
     // FOOD VARIABLES
     private String foodName = ""; // References the name of the food item.
     private String currentAddress = ""; // References the user's current address.
-
+    private String mYelpResponse;
+    private List<FGRestaurantModel> restaurantList;
     // FRAGMENT VARIABLES
     private View restaurant_list_view; // References the layout for the fragment.
 
@@ -104,12 +114,15 @@ public class FGRestaurantListFragment extends Fragment {
 
     private void setUpList() {
 
-        // Creates the LinkedList of restaurants. Populate the list of restaurants here.
-        //LinkedList<FGRestaurantModel> restaurantList =
 
-        // Sets up the ListView object and sets the appropriate adapter to it.
-        //FGListAdapter adapterRestaurants = new FGListAdapter(currentActivity, currentActivity, restaurantList);
-        //restaurantListView.setAdapter(adapterRestaurants);
+
+        //YelpAPI yelpApi = new YelpAPI();
+        //Log.i("YELP", yelpApi.searchForBusinessesByLocation(foodName, currentAddress));
+//        LinkedList<FGRestaurantModel> restaurantList =
+//
+//        // Sets up the ListView object and sets the appropriate adapter to it.
+        FGListAdapter adapterRestaurants = new FGListAdapter(currentActivity, currentActivity, restaurantList);
+        restaurantListView.setAdapter(adapterRestaurants);
     }
 
     /** ASYNCTASK METHODS ______________________________________________________________________ **/
@@ -142,9 +155,27 @@ public class FGRestaurantListFragment extends Fragment {
                     myAddress.setText(currentAddress); // TEST: Set the address.
 
                     // TODO: Retrieve the address and update the list of restaurants here.
-                    // getRestaurantList(foodName, currentAddress);
+                    Log.i("YELP", mYelpResponse);
+                    JSONParser parser = new JSONParser();
+                    JSONObject response = null;
+                    try {
+                        response = (JSONObject) parser.parse(mYelpResponse);
+                        JSONArray businesses = (JSONArray) response.get("businesses");
+                        restaurantList = FGRestaurantModel.parseRestaurants(businesses);
+                        setUpList();
+                    } catch (ParseException pe) {
+                        pe.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    //getRestaurantList(foodName, currentAddress);
                 }
             });
+
+
+
+
         }
 
         // doInBackground(): This method constantly runs in the background while AsyncTask is
@@ -154,7 +185,15 @@ public class FGRestaurantListFragment extends Fragment {
 
             // Does nothing while the address object is null.
             while (currentAddress == null) { }
+            YelpAPI yelpApi = new YelpAPI();
+            Log.e("currentAddress", currentAddress.replaceAll("\n", ""));
+            Log.e("foodName", foodName);
+            mYelpResponse = yelpApi.searchForBusinessesByLocation(foodName, currentAddress.replaceAll("\n", ""));
             return null;
         }
     }
+
+
+
+
 }
