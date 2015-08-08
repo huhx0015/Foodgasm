@@ -22,20 +22,27 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.huhmoon.apparely.R;
-import com.huhmoon.apparely.fragments.APDummyFragment;
+import com.huhmoon.apparely.data.FGFoodModel;
 import com.huhmoon.apparely.fragments.APResultsFragment;
-import com.huhmoon.apparely.fragments.APScannerFragment;
+import com.huhmoon.apparely.fragments.FGFoodFragment;
 import com.huhmoon.apparely.interfaces.OnScanResultsListener;
 import com.huhmoon.apparely.ui.layout.APUnbind;
+
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class APMainActivity extends AppCompatActivity implements OnScanResultsListener {
+public class FGMainActivity extends AppCompatActivity implements OnScanResultsListener {
 
     /** CLASS VARIABLES ________________________________________________________________________ **/
+
+    // SLIDER VARIABLES
+    private ArrayList<FGFoodModel> models; // References the ArrayList of FGFoodModel objects.
+    private int currentFoodNumber = 0; // Used to determine which food fragment is currently being displayed.
+    private int numberOfFoods = 1; // Used to determine how many food fragments are to be displayed.
 
     // LAYOUT VARIABLES
     private ActionBarDrawerToggle drawerToggle; // References the toolbar drawer toggle button.
@@ -44,20 +51,11 @@ public class APMainActivity extends AppCompatActivity implements OnScanResultsLi
     private ViewPager apViewPager; // Used to reference the ViewPager object.
 
     // SYSTEM VARIABLES
-    private static WeakReference<APMainActivity> weakRefActivity = null; // Used to maintain a weak reference to the activity.
+    private static WeakReference<FGMainActivity> weakRefActivity = null; // Used to maintain a weak reference to the activity.
 
     // VIEW INJECTION VARIABLES
     @Bind(R.id.ap_main_fragment_container) FrameLayout fragmentContainer; // Used to reference the FrameLayout object that contains the fragment.
-    @Bind(R.id.ap_secondary_toolbar) LinearLayout secondaryToolbar; // Used to reference the secondary toolbar LinearLayout container.
     @Bind(R.id.ap_main_toolbar) Toolbar mainToolbar; // Used for referencing the Toolbar object.
-
-    // SEARCH
-    @Bind(R.id.ap_search_bar_container) FrameLayout searchBarContainer;
-
-    // TABS
-    @Bind(R.id.ap_search_container) LinearLayout searchTab;
-    @Bind(R.id.ap_scan_container) LinearLayout scanTab;
-    @Bind(R.id.ap_cart_container) LinearLayout cartTab;
     
     /** ACTIVITY LIFECYCLE FUNCTIONALITY _______________________________________________________ **/
 
@@ -68,13 +66,13 @@ public class APMainActivity extends AppCompatActivity implements OnScanResultsLi
 
         // INITIALIZATION:
         super.onCreate(savedInstanceState);
-        weakRefActivity = new WeakReference<APMainActivity>(this); // Creates a weak reference of this activity.
-        setContentView(R.layout.ap_main_activity_layout); // Assigns the layout for the activity.
+        weakRefActivity = new WeakReference<FGMainActivity>(this); // Creates a weak reference of this activity.
+        setContentView(R.layout.fg_main_activity_layout); // Assigns the layout for the activity.
         ButterKnife.bind(this); // ButterKnife view injection initialization.
 
         // LAYOUT:
         setUpLayout(); // Sets up the layout, buttons and advertising banner for the activity.
-        setUpSlider(false); // Initializes the fragment slides for the PagerAdapter.
+        setUpFoodCards(); // Sets up the food card fragments.
     }
 
     // onDestroy(): This function runs when the activity has terminated and is being destroyed.
@@ -131,44 +129,12 @@ public class APMainActivity extends AppCompatActivity implements OnScanResultsLi
     /** LAYOUT FUNCTIONALITY ___________________________________________________________________ **/
 
     // setUpButtons(): Sets up the button listeners for the activity.
-    private void setUpButtons() {
-
-        // SEARCH TAB:
-        searchTab.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                apViewPager.setCurrentItem(0); // Loads the selected slider page.
-                searchBarContainer.setVisibility(View.VISIBLE);
-            }
-        });
-
-        // SCAN TAB:
-        scanTab.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                apViewPager.setCurrentItem(1); // Loads the selected slider page.
-                searchBarContainer.setVisibility(View.GONE);
-            }
-        });
-
-        // CART TAB:
-        cartTab.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                apViewPager.setCurrentItem(2); // Loads the selected slider page.
-                searchBarContainer.setVisibility(View.GONE);
-            }
-        });
-    }
+    private void setUpButtons() {}
 
     // setUpLayout(): This function is responsible for setting up the layout for the application.
     private void setUpLayout() {
         setUpButtons(); // Sets up the button listeners for the activity.
         setUpToolbar(); // Sets up the toolbar for the activity.
-        setUpSecondaryToolbar(); // Sets up the secondary toolbar for the activity.
     }
 
     /** DRAWER FUNCTIONALITY ___________________________________________________________________ **/
@@ -334,20 +300,57 @@ public class APMainActivity extends AppCompatActivity implements OnScanResultsLi
 
     /** SLIDER FUNCTIONALITY ___________________________________________________________________ **/
 
+    // setUpFoodCards(): Sets up the food cards for the slider fragments. Queries the server to
+    // retrieve the list of food.
+    private void setUpFoodCards() {
+
+        /*
+        client = new FGClient("FLYSFO"); // Sets up the JSON client for retrieving SFO data.
+
+        // Attempts to retrieve the JSON data from the server.
+        client.getJsonData(new JsonHttpResponseHandler() {
+
+            // onSuccess(): Run when JSON request was successful for JSONArray.
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+                Log.d(TAG, "Fly SFO API Handshake Success (JSONArray Response)" + response.toString()); // Logging.
+
+                models = SFOEventModel.fromJson(response); // Builds an ArrayList of WWEventModel objects from the JSONArray.
+                numberOfCards = models.size(); // Retrieves the number of card fragments to build.
+
+                setUpSlider(false); // Initializes the fragment slides for the PagerAdapter.
+            }
+
+            // onSuccess(): Run when JSON request was successful for JSONObject.
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d(TAG, "Fly SFO API Handshake Success (JSONObject Response) | Status Code: " + statusCode); // Logging.
+            }
+
+            // onFailure(): Run when JSON request was a failure.
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, "Fly SFO API Handshake failure! | Status Code: " + statusCode); // Logging.
+            }
+        });
+        */
+    }
+
     // createSlideFragments(): Sets up the slide fragments for the PagerAdapter object.
-    private List<Fragment> createSlideFragments() {
+    private List<Fragment> createSlideFragments(int numberOfSlides) {
 
-        final List<Fragment> fragments = new Vector<Fragment>(); // List of fragments in which the fragments is stored.
+        // List of fragments in which the fragments is stored.
+        final List<Fragment> fragments = new Vector<Fragment>();
 
-        // Initializes the fragment objects for the slider.
-        APDummyFragment firstFragment = new APDummyFragment();
-        APScannerFragment secondFragment = new APScannerFragment();
-        APDummyFragment thirdFragment = new APDummyFragment();
+        // Creates the card deck for the slider.
+        for (int i = 0; i < numberOfSlides; i++) {
 
-        // Sets up the fragment list for the PagerAdapter object.
-        fragments.add(firstFragment); // Adds the firstFragment fragment to the List<Fragment> object.
-        fragments.add(secondFragment); // Adds the secondFragment fragment to the List<Fragment> object.
-        fragments.add(thirdFragment); // Adds the thirdFragment fragment to the List<Fragment> object.
+            // Initializes the food card fragment and adds it to the deck.
+            FGFoodFragment cardFragment = new FGFoodFragment();
+            cardFragment.initializeFragment(i, models.get(i));
+            fragments.add(cardFragment);
+        }
 
         return fragments;
     }
@@ -359,33 +362,14 @@ public class APMainActivity extends AppCompatActivity implements OnScanResultsLi
         page.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             // onPageScrollStateChanged(): Called the page scroll state is changed.
-            public void onPageScrollStateChanged(int state) {
-            }
+            public void onPageScrollStateChanged(int state) {}
 
             // onPageScrolled(): Called when the pages are scrolled.
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             // onPageSelected(): Called when a new page is selected.
             public void onPageSelected(int position) {
-
-                switch (position) {
-
-                    // SEARCH:
-                    case 0:
-                        searchBarContainer.setVisibility(View.VISIBLE);
-                        break;
-
-                    // SCAN:
-                    case 1:
-                        searchBarContainer.setVisibility(View.GONE);
-                        break;
-
-                    // CART:
-                    case 2:
-                        searchBarContainer.setVisibility(View.GONE);
-                        break;
-                }
+                currentFoodNumber = position; // Sets the current food card ID value.
             }
         });
     }
@@ -398,11 +382,10 @@ public class APMainActivity extends AppCompatActivity implements OnScanResultsLi
 
         // Initializes and creates a new FragmentListPagerAdapter objects using the List of slides
         // created from createSlideFragments.
-        PagerAdapter dgPageAdapter = new FragmentListPagerAdapter(getSupportFragmentManager(), createSlideFragments());
+        PagerAdapter dgPageAdapter = new FragmentListPagerAdapter(getSupportFragmentManager(), createSlideFragments(numberOfFoods));
 
         apViewPager = (ViewPager) super.findViewById(R.id.ap_main_activity_fragment_pager);
         apViewPager.setAdapter(dgPageAdapter); // Sets the PagerAdapter object for the activity.
-        apViewPager.setOffscreenPageLimit(3); // Sets the off page limit for three fragments.
 
         setPageListener(apViewPager); // Sets up the listener for the pager object.
     }
@@ -478,25 +461,6 @@ public class APMainActivity extends AppCompatActivity implements OnScanResultsLi
         // Retrieves the DrawerLayout to set the status bar color. This only takes effect on Lollipop,
         // or when using translucentStatusBar on KitKat.
         apDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.toolbarDarkColor));
-    }
-
-    // setUpSecondaryToolbar(): Sets up the secondary toolbar for the activity.
-    private void setUpSecondaryToolbar() {
-
-        // Retrieves the height value of the primary Toolbar object.
-        int toolbarHeight = getSupportActionBar().getHeight();
-
-        // If the Toolbar height is 0, the default height for a Toolbar object is set.
-        if (toolbarHeight <= 0) {
-
-            // Converts pixels into density pixels.
-            float scale = getResources().getDisplayMetrics().density;
-            toolbarHeight = (int) (56 * scale + 0.5f); // Converts 56dp into pixels.
-        }
-
-        // Sets the width and height parameters for the secondary Toolbar object.
-        LinearLayout.LayoutParams parameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, toolbarHeight);
-        secondaryToolbar.setLayoutParams(parameters);
     }
 
     /** MEMORY FUNCTIONALITY ___________________________________________________________________ **/

@@ -28,96 +28,6 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimaryDark"/>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="56dp"
-                android:id="@+id/ap_secondary_toolbar"
-                android:background="@color/toolbarLightColor"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:gravity="center">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:id="@+id/ap_search_container"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ap_search_icon"
-                        android:layout_gravity="center"
-                        android:src="@drawable/abc_ic_search_api_mtrl_alpha" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SEARCH"
-                        android:id="@+id/ap_search_text"
-                        android:layout_gravity="center"
-                        android:typeface="sans"
-                        android:layout_marginLeft="4dp"
-                        android:textColor="@android:color/white" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:id="@+id/ap_scan_container"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:id="@+id/ap_scan_icon"
-                        android:layout_gravity="center"
-                        android:src="@drawable/abc_btn_rating_star_off_mtrl_alpha" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SCAN"
-                        android:id="@+id/ap_scan_text"
-                        android:layout_gravity="center"
-                        android:typeface="sans"
-                        android:layout_marginLeft="4dp"
-                        android:textColor="@android:color/white" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:id="@+id/ap_cart_container"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ap_cart_icon"
-                        android:layout_gravity="center"
-                        android:src="@drawable/abc_ic_menu_copy_mtrl_am_alpha" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CART"
-                        android:id="@+id/ap_cart_text"
-                        android:layout_gravity="center"
-                        android:typeface="sans"
-                        android:layout_marginLeft="4dp"
-                        android:textColor="@android:color/white" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -140,24 +50,6 @@
                         android:layout_height="fill_parent"
                         android:background="@android:color/white">
                     </android.support.v4.view.ViewPager>
-
-                    <FrameLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:id="@+id/ap_search_bar_container">
-
-                        <EditText
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPostalAddress"
-                            android:ems="10"
-                            android:id="@+id/ap_search_bar"
-                            android:padding="8dp"
-                            android:hint="Search at Macy&apos;s..."
-                            android:textColorHint="@android:color/darker_gray"
-                            android:textColor="@android:color/black" />
-                    </FrameLayout>
 
                     <FrameLayout
                         android:layout_width="fill_parent"
