@@ -20,9 +20,11 @@ android {
 }
 
 dependencies {
-
     // INTEGRATED LIBRARIES:
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('src/main/libs/scribe-1.3.5.jar')
+    compile files('src/main/libs/json_simple-1.1.jar')
+    compile files('src/main/libs/jcommander-1.35.jar')
 
     // ANDROID SUPPORT LIBRARIES:
     compile 'com.android.support:design:22.2.1'

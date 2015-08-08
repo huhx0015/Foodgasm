@@ -30,6 +30,7 @@ import com.huhmoon.apparely.data.FGRestaurantModel;
 import com.huhmoon.apparely.fragments.FGFoodFragment;
 import com.huhmoon.apparely.fragments.FGRestaurantFragment;
 import com.huhmoon.apparely.fragments.FGRestaurantListFragment;
+import com.huhmoon.apparely.intent.FGShareIntent;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
 import com.huhmoon.apparely.interfaces.OnRestaurantSelectedListener;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
@@ -127,6 +128,13 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
+    }
+
+    // onShareAction(): Defines the action to take if the Share menu option is selected.
+    public void onShareAction(MenuItem item) {
+
+        // Shares the data with external activities.
+        //FGShareIntent.shareIntent(currentImageFile, this);
     }
 
     /** PHYSICAL BUTTON FUNCTIONALITY __________________________________________________________ **/
