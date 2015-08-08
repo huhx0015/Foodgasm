@@ -465,7 +465,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
         // created from createSlideFragments.
         PagerAdapter dgPageAdapter = new FragmentListPagerAdapter(getSupportFragmentManager(), createSlideFragments(numberOfFoods));
 
-        apViewPager = (ViewPager) super.findViewById(R.id.ap_main_activity_fragment_pager);
+        apViewPager = (ViewPager) super.findViewById(R.id.fg_main_activity_fragment_pager);
         apViewPager.setAdapter(dgPageAdapter); // Sets the PagerAdapter object for the activity.
 
         setPageListener(apViewPager); // Sets up the listener for the pager object.
