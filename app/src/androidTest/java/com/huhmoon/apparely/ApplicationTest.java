@@ -1,4 +1,4 @@
-package com.huhx0015.apparely;
+package com.huhmoon.apparely;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
