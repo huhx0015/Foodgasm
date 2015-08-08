@@ -22,20 +22,33 @@
             android:layout_height="wrap_content"
             android:text="Restaurant Name"
             android:id="@+id/fg_restaurant_name"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:layout_gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Restaurant Address"
             android:id="@+id/fg_restaurant_address"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:layout_gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Restaurant Time"
             android:id="@+id/fg_restaurant_time"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:layout_gravity="center" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fg_restaurant_navigation_button"
+            android:text="TAKE ME TO THE FOOD!"
+            android:background="@drawable/fg_button_background"
+            android:padding="20dp"
+            android:gravity="center"
+            android:layout_gravity="center" />
     </LinearLayout>
 </LinearLayout>
