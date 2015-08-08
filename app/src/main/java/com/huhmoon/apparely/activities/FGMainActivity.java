@@ -21,10 +21,12 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGFoodModel;
+import com.huhmoon.apparely.data.FGRestaurantModel;
 import com.huhmoon.apparely.fragments.APResultsFragment;
 import com.huhmoon.apparely.fragments.FGFoodFragment;
 import com.huhmoon.apparely.fragments.FGRestaurantListFragment;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
+import com.huhmoon.apparely.interfaces.OnRestaurantSelectedListener;
 import com.huhmoon.apparely.interfaces.OnScanResultsListener;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
 import java.lang.ref.WeakReference;
@@ -34,7 +36,7 @@ import java.util.Vector;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateListener {
+public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateListener, OnRestaurantSelectedListener {
 
     /** CLASS VARIABLES ________________________________________________________________________ **/
 
@@ -478,7 +480,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     /** INTERFACE METHODS ______________________________________________________________________ **/
 
     @Override
-    public void displayRestaurantListFragment(Boolean isDisplay, String foodName) {
+    public void displayRestaurantListFragment(String foodName, Boolean isDisplay) {
 
         // Displays the FGRestaurantListFragment view only if the fragment is not being shown.
         if (isDisplay && !showFragment) {
@@ -492,5 +494,12 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
         else {
             removeFragment("RESTAURANT_LIST");
         }
+    }
+
+    @Override
+    public void displayRestaurant(FGRestaurantModel restaurant, Boolean isDisplay) {
+
+        // TODO: Display the FBRestaurantFragment view here.
+
     }
 }

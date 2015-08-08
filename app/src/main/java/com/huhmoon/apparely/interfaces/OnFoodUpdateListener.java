@@ -5,5 +5,5 @@ package com.huhmoon.apparely.interfaces;
  */
 public interface OnFoodUpdateListener {
 
-    void displayRestaurantListFragment(Boolean isDisplay, String foodName);
+    void displayRestaurantListFragment(String foodName, Boolean isDisplay);
 }

@@ -117,7 +117,7 @@ public class FGFoodFragment extends Fragment {
             public void onClick(View v) {
 
                 // Signals the attached parent activity to display the FGRestaurantListFragment.
-                displayRestaurantListFragment(true, foodName);
+                displayRestaurantListFragment(foodName);
                 // TODO: Define action for ordering food here. Call interface method to display
                 // restaurant list fragment.
             }
@@ -180,8 +180,8 @@ public class FGFoodFragment extends Fragment {
     /** INTERFACE METHODS ______________________________________________________________________ **/
 
     // Signals parent activity to display the restaurant list fragment.
-    public void displayRestaurantListFragment(Boolean isDisplay, String food) {
-        try { ((OnFoodUpdateListener) currentActivity).displayRestaurantListFragment(true, food); }
+    public void displayRestaurantListFragment(String food) {
+        try { ((OnFoodUpdateListener) currentActivity).displayRestaurantListFragment(food, true); }
         catch (ClassCastException cce) { } // Catch for class cast exception errors.
     }
 }
