@@ -3,7 +3,6 @@ package com.huhmoon.apparely.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import android.widget.TextView;
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGFoodModel;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
-import com.huhmoon.apparely.interfaces.OnScanResultsListener;
-import com.huhmoon.apparely.ui.graphics.FGImages;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -82,7 +79,7 @@ public class FGFoodFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Sets the view to the specified XML layout file.
-        food_view = (ViewGroup) inflater.inflate(R.layout.fg_food_fragment_layout, container, false);
+        food_view = (ViewGroup) inflater.inflate(R.layout.fg_food_fragment, container, false);
         ButterKnife.bind(this, food_view); // ButterKnife view injection initialization.
 
         setUpLayout(); // Sets up the layout for the fragment.

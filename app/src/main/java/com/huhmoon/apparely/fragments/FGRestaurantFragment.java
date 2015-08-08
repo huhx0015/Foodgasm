@@ -60,7 +60,7 @@ public class FGRestaurantFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Sets the view to the specified XML layout file.
-        restaurant_view = (ViewGroup) inflater.inflate(R.layout.fg_restaurant_list_fragment_layout, container, false);
+        restaurant_view = (ViewGroup) inflater.inflate(R.layout.fg_restaurant_fragment, container, false);
         ButterKnife.bind(this, restaurant_view); // ButterKnife view injection initialization.
 
         setUpLayout(); // Sets up the layout for the fragment.

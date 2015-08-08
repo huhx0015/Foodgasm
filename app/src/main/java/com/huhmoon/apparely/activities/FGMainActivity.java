@@ -22,12 +22,11 @@ import android.widget.ListView;
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.data.FGFoodModel;
 import com.huhmoon.apparely.data.FGRestaurantModel;
-import com.huhmoon.apparely.fragments.APResultsFragment;
 import com.huhmoon.apparely.fragments.FGFoodFragment;
+import com.huhmoon.apparely.fragments.FGRestaurantFragment;
 import com.huhmoon.apparely.fragments.FGRestaurantListFragment;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
 import com.huhmoon.apparely.interfaces.OnRestaurantSelectedListener;
-import com.huhmoon.apparely.interfaces.OnScanResultsListener;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -47,7 +46,8 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
 
     // LAYOUT VARIABLES
     private ActionBarDrawerToggle drawerToggle; // References the toolbar drawer toggle button.
-    private Boolean showFragment = false; // Used to determine if the fragment is currently being shown or not.
+    private Boolean showRestaurantList = false; // Used to determine if the restaurant list fragment is currently being shown or not.
+    private Boolean showRestaurant = false; // Used to determine if the restaurant fragment is currently being shown or not.
     private Boolean isRemovingFragment = false; // Used to determine if the fragment is currently being removed.
     private ViewPager apViewPager; // Used to reference the ViewPager object.
 
@@ -68,7 +68,7 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
         // INITIALIZATION:
         super.onCreate(savedInstanceState);
         weakRefActivity = new WeakReference<FGMainActivity>(this); // Creates a weak reference of this activity.
-        setContentView(R.layout.fg_main_activity_layout); // Assigns the layout for the activity.
+        setContentView(R.layout.fg_main_activity); // Assigns the layout for the activity.
         ButterKnife.bind(this); // ButterKnife view injection initialization.
 
         // LAYOUT:
@@ -197,8 +197,8 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
                 int animationResource; // References the animation XML resource file.
 
                 // Sets the animation XML resource file, based on the fragment type.
-                if (fragType.equals("RESTAURANT_LIST")) { animationResource = R.anim.slide_up; } // SCAN RESULTS
-                else { animationResource = R.anim.slide_down; }
+                if (fragType.equals("RESTAURANT_LIST")) { animationResource = R.anim.slide_up; } // RESTAURANT LIST
+                else { animationResource = R.anim.slide_down; } // RESTAURANT
 
                 final Animation fragmentAnimation = AnimationUtils.loadAnimation(this, animationResource);
 
@@ -255,11 +255,12 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
 
             int animationResource; // References the animation XML resource file.
 
-            // SCAN RESULTS:
-            if (fragType.equals("SCAN_SUCCESS")) {
+            // RESTAURANT LIST:
+            if (fragType.equals("RESTAURANT_LIST")) {
                 animationResource = R.anim.slide_down; // Sets the animation XML resource file.
             }
 
+            // RESTAURANT:
             else { animationResource = R.anim.slide_up; } // Sets the animation XML resource file.
 
             Animation fragmentAnimation = AnimationUtils.loadAnimation(this, animationResource);
@@ -280,9 +281,14 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
                     fragMan.popBackStack(); // Pops the fragment from the stack.
                     fragmentContainer.removeAllViews(); // Removes all views in the layout.
 
-                    // Indicates that the fragment is no longer active.
+                    // Indicates that the FGRestaurantListFragment is no longer active.
                     if (fragType.equals("RESTAURANT_LIST")) {
-                        showFragment = false;
+                        showRestaurantList = false;
+                    }
+
+                    // Indicates that the FGRestaurantFragment is no longer active.
+                    else if (fragType.equals("RESTAURANT")) {
+                        showRestaurant = false;
                     }
 
                     fragmentContainer.setVisibility(View.INVISIBLE); // Hides the fragment.
@@ -482,15 +488,15 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     @Override
     public void displayRestaurantListFragment(String foodName, Boolean isDisplay) {
 
-        // Displays the FGRestaurantListFragment view only if the fragment is not being shown.
-        if (isDisplay && !showFragment) {
-            showFragment = true;
+        // Displays the FGRestaurantListFragment view.
+        if (isDisplay) {
+            showRestaurantList = true;
             FGRestaurantListFragment restaurantListFragment = new FGRestaurantListFragment();
             restaurantListFragment.initializeFragment(foodName);
             setUpFragment(restaurantListFragment, "RESTAURANT_LIST", true);
         }
 
-        // Hides the APResultsFragment view.
+        // Removes the FGRestaurantListFragment view.
         else {
             removeFragment("RESTAURANT_LIST");
         }
@@ -499,7 +505,17 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     @Override
     public void displayRestaurant(FGRestaurantModel restaurant, Boolean isDisplay) {
 
-        // TODO: Display the FBRestaurantFragment view here.
+        // Displays the FGRestaurantFragment view
+        if (isDisplay) {
+            showRestaurant = true;
+            FGRestaurantFragment restaurantFragment = new FGRestaurantFragment();
+            restaurantFragment.initializeFragment(restaurant);
+            setUpFragment(restaurantFragment, "RESTAURANT", true);
+        }
 
+        // Removes the FGResturantFragment view.
+        else {
+            removeFragment("RESTAURANT");
+        }
     }
 }
