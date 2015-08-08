@@ -1,25 +1,30 @@
-package com.huhmoon.apparely.macysapihandler;
+package com.huhmoon.apparely.retrofitapisubmodule;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.huhmoon.apparely.R;
 
-public class ApiMainActivity extends ActionBarActivity {
+public class RestMainActivity extends ActionBarActivity {
+
+    private float x1,x2;
+    static final int MIN_DISTANCE = 150;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_api_main);
+        setContentView(R.layout.activity_rest_main);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_api_main, menu);
+        getMenuInflater().inflate(R.menu.menu_rest_main, menu);
         return true;
     }
 
@@ -37,6 +42,5 @@ public class ApiMainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

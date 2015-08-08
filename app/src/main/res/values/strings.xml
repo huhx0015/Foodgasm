@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="title_activity_rest_main">RestMainActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
