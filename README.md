@@ -1,4 +1,4 @@
-Foodgasm | AT&T Mobile App Hackathon, Bay Area
+Foodgasm | AT&T Mobile App Hackathon Bay Area
 ============
 
 Team: Michael Huh, Ssurey Moon, Missy Bur
