@@ -22,6 +22,10 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.Wearable;
 import com.huhmoon.apparely.R;
 import com.huhmoon.apparely.apiclients.FGClient;
 import com.huhmoon.library.data.FGFoodModel;
@@ -36,9 +40,13 @@ import com.huhmoon.apparely.interfaces.OnImageSaveListener;
 import com.huhmoon.apparely.interfaces.OnRestaurantSelectedListener;
 import com.huhmoon.apparely.preferences.FGPreferences;
 import com.huhmoon.apparely.ui.layout.FGUnbind;
-import com.huhmoon.library.FGToast;
+import com.huhmoon.library.sync.FGFoodImageSync;
+import com.huhmoon.library.ui.FGToast;
+import com.huhmoon.library.sync.FGWearableListener;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 import butterknife.Bind;
@@ -51,20 +59,15 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
 
     /** CLASS VARIABLES ________________________________________________________________________ **/
 
-    // SLIDER VARIABLES
-    private ArrayList<FGFoodModel> models; // References the ArrayList of FGFoodModel objects.
-    private int currentFoodNumber = 0; // Used to determine which food fragment is currently being displayed.
-    private int numberOfFoods = 1; // Used to determine how many food fragments are to be displayed.
-    private Boolean isFoodLoaded = false; // Used to determine if the food fragments have been fully loaded.
-    private List<FGFoodModel> mFoodModelList;
-    private List<Fragment> foodFragments = new Vector<Fragment>(); // Stores the list of food fragments.
+    // DATA SYNCHRONIZATION VARIABLES
+    private GoogleApiClient wearGoogleApiClient; // Used to setup the data connection between wear and mobile device.
 
     // LAYOUT VARIABLES
     private ActionBarDrawerToggle drawerToggle; // References the toolbar drawer toggle button.
     private Boolean showRestaurantList = false; // Used to determine if the restaurant list fragment is currently being shown or not.
     private Boolean showRestaurant = false; // Used to determine if the restaurant fragment is currently being shown or not.
     private Boolean isRemovingFragment = false; // Used to determine if the fragment is currently being removed.
-    private ViewPager apViewPager; // Used to reference the ViewPager object.
+    private ViewPager fgViewPager; // Used to reference the ViewPager object.
 
     // LOGGING VARIABLES
     private static final String LOG_TAG = FGMainActivity.class.getSimpleName();
@@ -73,6 +76,13 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     private SharedPreferences FG_prefs; // Main SharedPreferences objects that store settings for the application.
     private static final String FG_OPTIONS = "fg_options"; // Used to reference the name of the preference XML file.
     private String currentImageFile = ""; // References the current image file name.
+
+    // SLIDER VARIABLES
+    private int currentFoodNumber = 0; // Used to determine which food fragment is currently being displayed.
+    private int numberOfFoods = 1; // Used to determine how many food fragments are to be displayed.
+    private Boolean isFoodLoaded = false; // Used to determine if the food fragments have been fully loaded.
+    private LinkedList<FGFoodModel> mFoodModelList;
+    private List<Fragment> foodFragments = new Vector<Fragment>(); // Stores the list of food fragments.
 
     // SYSTEM VARIABLES
     private static WeakReference<FGMainActivity> weakRefActivity = null; // Used to maintain a weak reference to the activity.
@@ -378,6 +388,8 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
                 mFoodModelList = FGFoodModel.parseFoodModel(model);
                 numberOfFoods = mFoodModelList.size();
                 setUpSlider(false); // Initializes the fragment slides for the PagerAdapter.
+
+                setUpDataConnection(mFoodModelList); // Sends the list of foods to the Wear device.
             }
 
             @Override
@@ -387,35 +399,6 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
                 //Toast.makeText(this, error.getStackTrace().toString(), Toast.LENGTH_LONG).show();
             }
         });
-        /*
-        // Attempts to retrieve the JSON data from the server.
-        client.getJsonData(new JsonHttpResponseHandler() {
-
-            // onSuccess(): Run when JSON request was successful for JSONArray.
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
-                Log.d(TAG, "Fly SFO API Handshake Success (JSONArray Response)" + response.toString()); // Logging.
-
-                models = SFOEventModel.fromJson(response); // Builds an ArrayList of WWEventModel objects from the JSONArray.
-                numberOfCards = models.size(); // Retrieves the number of card fragments to build.
-
-                setUpSlider(false); // Initializes the fragment slides for the PagerAdapter.
-            }
-
-            // onSuccess(): Run when JSON request was successful for JSONObject.
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d(TAG, "Fly SFO API Handshake Success (JSONObject Response) | Status Code: " + statusCode); // Logging.
-            }
-
-            // onFailure(): Run when JSON request was a failure.
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d(TAG, "Fly SFO API Handshake failure! | Status Code: " + statusCode); // Logging.
-            }
-        });
-        */
     }
 
     // createSlideFragments(): Sets up the slide fragments for the PagerAdapter object.
@@ -459,16 +442,16 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
     private void setUpSlider(Boolean isChanged) {
 
         // Resets the ViewPager object if the Page Adapter object has experienced a screen change.
-        if (isChanged == true) { apViewPager.setAdapter(null); }
+        if (isChanged == true) { fgViewPager.setAdapter(null); }
 
         // Initializes and creates a new FragmentListPagerAdapter objects using the List of slides
         // created from createSlideFragments.
         PagerAdapter dgPageAdapter = new FragmentListPagerAdapter(getSupportFragmentManager(), createSlideFragments(numberOfFoods));
 
-        apViewPager = (ViewPager) super.findViewById(R.id.fg_main_activity_fragment_pager);
-        apViewPager.setAdapter(dgPageAdapter); // Sets the PagerAdapter object for the activity.
+        fgViewPager = (ViewPager) super.findViewById(R.id.fg_main_activity_fragment_pager);
+        fgViewPager.setAdapter(dgPageAdapter); // Sets the PagerAdapter object for the activity.
 
-        setPageListener(apViewPager); // Sets up the listener for the pager object.
+        setPageListener(fgViewPager); // Sets up the listener for the pager object.
     }
 
     // FragmentListPagerAdapter(): A subclass that extends upon the FragmentPagerAdapter class object,
@@ -542,6 +525,51 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
         // Retrieves the DrawerLayout to set the status bar color. This only takes effect on Lollipop,
         // or when using translucentStatusBar on KitKat.
         apDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.toolbarDarkColor));
+    }
+
+    /** DATA SYNC FUNCTIONALITY ________________________________________________________________ **/
+
+    // setUpDataConnection(): Sets up the data connection between the wear and phone.
+    private void setUpDataConnection(final LinkedList<FGFoodModel> foods) {
+
+        // Builds and initializes the Android Wear connection API client.
+        wearGoogleApiClient = new GoogleApiClient.Builder(this)
+
+                // Sets up the connection callback listener for the client.
+                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+
+                    // onConnected(): Called when the API connection has been successful.
+                    @Override
+                    public void onConnected(Bundle connectionHint) {
+
+                        Log.d(LOG_TAG, "onConnected(): " + connectionHint);
+
+                        // Send list of foods and images to Android Wear device.
+                        FGWearableListener.sendOutgoingData(FGMainActivity.this, wearGoogleApiClient, foods);
+                        FGFoodImageSync.sendFoodImages(wearGoogleApiClient, foods);
+                    }
+
+                    // onConnectionSuspended(): Called when the API connection has been suspended.
+                    @Override
+                    public void onConnectionSuspended(int cause) {
+                        Log.d(LOG_TAG, "onConnectionSuspended(): " + cause);
+                    }
+                })
+
+                        // Sets up the connection failure listener for the client.
+                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+
+                    // onConnectionFailed(): Called when the API connection attempt has failed.
+                    @Override
+                    public void onConnectionFailed(ConnectionResult result) {
+                        Log.d(LOG_TAG, "onConnectionFailed(): " + result);
+                    }
+                })
+
+                .addApi(Wearable.API)
+                .build();
+
+        wearGoogleApiClient.connect(); // Connects to the Android Wear API.
     }
 
     /** PREFERENCES METHODS ____________________________________________________________________ **/

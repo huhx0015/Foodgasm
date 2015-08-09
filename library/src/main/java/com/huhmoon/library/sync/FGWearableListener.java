@@ -22,8 +22,8 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
-import com.huhmoon.library.FGApplication;
-import com.huhmoon.library.FGToast;
+import com.huhmoon.library.application.FGApplication;
+import com.huhmoon.library.ui.FGToast;
 import com.huhmoon.library.data.FGFoodModel;
 
 import java.util.Date;

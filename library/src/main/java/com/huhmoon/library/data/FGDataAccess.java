@@ -1,8 +1,6 @@
-package com.huhmoon.apparely.data;
+package com.huhmoon.library.data;
 
 import android.content.Context;
-
-import com.huhmoon.library.data.FGFoodModel;
 
 import java.util.LinkedList;
 

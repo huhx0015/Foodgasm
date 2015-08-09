@@ -1,4 +1,4 @@
-package com.huhmoon.apparely.ui.graphics;
+package com.huhmoon.library.graphics;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

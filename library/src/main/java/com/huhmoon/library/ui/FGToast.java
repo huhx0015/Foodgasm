@@ -1,4 +1,4 @@
-package com.huhmoon.library;
+package com.huhmoon.library.ui;
 
 /**
  * Created by Michael Yoon Huh on 8/7/2015.

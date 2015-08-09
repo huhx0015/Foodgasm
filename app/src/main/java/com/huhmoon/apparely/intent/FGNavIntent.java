@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import com.huhmoon.library.FGToast;
+import com.huhmoon.library.ui.FGToast;
 
 /**
  * Created by Michael Yoon Huh on 8/8/2015.

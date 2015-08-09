@@ -8,9 +8,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
-
 import com.huhmoon.apparely.preferences.FGPreferences;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;

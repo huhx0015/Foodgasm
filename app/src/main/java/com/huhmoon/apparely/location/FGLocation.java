@@ -8,7 +8,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
 import com.huhmoon.apparely.ui.dialog.FGDialog;
-import com.huhmoon.library.FGToast;
+import com.huhmoon.library.ui.FGToast;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;

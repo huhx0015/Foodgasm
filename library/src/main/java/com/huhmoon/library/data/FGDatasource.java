@@ -1,4 +1,4 @@
-package com.huhmoon.apparely.data;
+package com.huhmoon.library.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
-import com.huhmoon.library.data.FGFoodModel;
 
 import java.util.LinkedList;
 

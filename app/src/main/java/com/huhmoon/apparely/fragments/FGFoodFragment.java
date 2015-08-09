@@ -17,7 +17,7 @@ import com.huhmoon.library.data.FGFoodModel;
 import com.huhmoon.apparely.data.FGImageStore;
 import com.huhmoon.apparely.interfaces.OnFoodUpdateListener;
 import com.huhmoon.apparely.interfaces.OnImageSaveListener;
-import com.huhmoon.apparely.ui.graphics.FGImages;
+import com.huhmoon.library.graphics.FGImages;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -158,7 +158,6 @@ public class FGFoodFragment extends Fragment implements OnImageSaveListener {
 
     // setUpFoodDetails(): Sets up the food image and name for the fragment.
     private void setUpFoodDetails() {
-
 
         // Retrieves the food details from the foodModel.
         String food_name = foodModel.getFoodName(); // Gets the food name from the JSON string.

@@ -1,8 +1,10 @@
-package com.huhmoon.library;
+package com.huhmoon.library.application;
 
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
+
+import com.huhmoon.library.ui.FGToast;
 
 /**
  * Created by Michael Yoon Huh on 8/8/2015.

@@ -6,7 +6,6 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.gson.Gson;
 import com.huhmoon.library.data.FGFoodModel;
-
 import java.util.LinkedList;
 
 /**
@@ -71,13 +70,13 @@ public class FGFoodSync {
         Log.d(LOG_TAG, "receive(): dataMapItem: " + dataMapItem);
 
         // Retrieves the number of foods being received from the paired Android device.
-        final int numberOfShortcuts = dataMapItem.getDataMap().getInt("fg_number_of_foods");
+        final int numberOfFoods = dataMapItem.getDataMap().getInt("fg_number_of_foods");
 
         // Prepares a new LinkedList object containing FGFoodModel received from the mobile device.
         LinkedList<FGFoodModel> foods = new LinkedList<>();
 
         // Processes each received food and adds it into the LinkedList object.
-        for (int i = 0; i < numberOfShortcuts; i++) {
+        for (int i = 0; i < numberOfFoods; i++) {
 
             String foodJson = dataMapItem.getDataMap().getString("fg_food_" + i);
 

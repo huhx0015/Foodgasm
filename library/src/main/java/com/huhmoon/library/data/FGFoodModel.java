@@ -7,7 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -96,10 +96,8 @@ public class FGFoodModel {
         }
     }
 
-
-
-    public static List<FGFoodModel> parseFoodModel(FoodResponse model){
-        List<FGFoodModel> foodModelList = new ArrayList<FGFoodModel>();
+    public static LinkedList<FGFoodModel> parseFoodModel(FoodResponse model){
+        LinkedList<FGFoodModel> foodModelList = new LinkedList<FGFoodModel>();
         String title;
         String url;
         List<ResponseChildData> children = model.getResponseData().getResponseChildData();
