@@ -4,34 +4,51 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@drawable/fg_darker_transparent_background">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:id="@+id/fg_restaurant_list_container">
+        android:id="@+id/fg_restaurant_list_container"
+        android:padding="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Restaurants Found"
-            android:id="@+id/fg_restaurant_category_text"
+            android:text="Current Address Location"
+            android:id="@+id/fg_restaurant_current_location_text_label"
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="14sp"
             android:typeface="sans"
             android:paddingLeft="14dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Current Address"
             android:id="@+id/fg_restaurant_my_address_text"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
             android:typeface="sans" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Closet Restaurants Found"
+            android:id="@+id/fg_restaurant_category_text"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="14sp"
+            android:typeface="sans"
+            android:paddingLeft="14dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp" />
 
         <ListView
             android:layout_width="fill_parent"

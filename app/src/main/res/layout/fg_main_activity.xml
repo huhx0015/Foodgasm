@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/fg_main_activity_layout"
-    android:background="@color/primary_material_light"
+    android:background="@android:color/black"
     android:clickable="false"
     android:orientation="vertical">
 
@@ -47,8 +47,7 @@
                     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
                         android:id="@+id/fg_main_activity_fragment_pager"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:background="@android:color/white">
+                        android:layout_height="fill_parent">
                     </android.support.v4.view.ViewPager>
 
                     <FrameLayout
@@ -69,7 +68,7 @@
         </LinearLayout>
 
         <!-- Navigation Drawer -->
-        <com.huhmoon.apparely.ui.layout.ScrimInsetsFrameLayout
+        <com.huhmoon.foodgasm.ui.layout.ScrimInsetsFrameLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ap_main_left_drawer"
             android:layout_width="320dp"
@@ -184,7 +183,7 @@
 
             </LinearLayout>
 
-        </com.huhmoon.apparely.ui.layout.ScrimInsetsFrameLayout>
+        </com.huhmoon.foodgasm.ui.layout.ScrimInsetsFrameLayout>
 
     </android.support.v4.widget.DrawerLayout>
 

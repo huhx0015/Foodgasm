@@ -67,7 +67,8 @@
                 android:id="@+id/fg_food_fragment_favorite_button"
                 android:src="@drawable/abc_btn_rating_star_off_mtrl_alpha"
                 android:background="@android:color/transparent"
-                android:layout_gravity="bottom|right" />
+                android:layout_gravity="bottom|right"
+                android:visibility="gone" />
 
         </FrameLayout>
 

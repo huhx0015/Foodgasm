@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:id="@+id/fg_list_view_restaurant_container"
-        android:clickable="true">
+        android:clickable="true"
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/fg_restaurant_image"
@@ -40,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/fg_restaurant_image"
                 android:text="RESTAURANT NAME"
-                android:textColor="@android:color/holo_orange_dark"
+                android:textColor="@android:color/holo_red_dark"
                 android:typeface="sans"
                 android:textSize="16sp" />
 
@@ -53,7 +54,7 @@
                 android:layout_marginTop="5dp"
                 android:text="ADDRESS"
                 android:typeface="sans"
-                android:textColor="@android:color/holo_orange_light" />
+                android:textColor="@android:color/holo_orange_dark" />
         </LinearLayout>
     </LinearLayout>
 

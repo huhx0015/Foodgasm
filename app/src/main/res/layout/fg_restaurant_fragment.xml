@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/fg_darker_transparent_background"
     android:id="@+id/fg_restaurant_fragment_layout">
 
     <ImageView
@@ -22,16 +22,25 @@
             android:layout_height="wrap_content"
             android:text="Restaurant Name"
             android:id="@+id/fg_restaurant_name"
-            android:textColor="@android:color/black"
-            android:layout_gravity="center" />
+            android:textColor="#ffd836"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Restaurant Address"
             android:id="@+id/fg_restaurant_address"
-            android:textColor="@android:color/black"
-            android:layout_gravity="center" />
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textStyle="italic"
+            android:typeface="sans"
+            android:textSize="24sp"
+            android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,7 +48,8 @@
             android:text="Restaurant Time"
             android:id="@+id/fg_restaurant_time"
             android:textColor="@android:color/black"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <Button
             android:layout_width="wrap_content"
@@ -49,6 +59,7 @@
             android:background="@drawable/fg_button_background"
             android:padding="20dp"
             android:gravity="center"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp" />
     </LinearLayout>
 </LinearLayout>
