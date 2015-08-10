@@ -3,7 +3,7 @@ Foodgasm | AT&T Mobile App Hackathon Bay Area
 
 Team: Michael Huh, Ssurey Moon, Missy Bur
 
-Platform: Android
+Platform: Android, Android Wear
 
 Foodgasm is a mobile app that entices user's appeal to food and also helps promote business for local restaurants in the area that have food that is trending on social media. With Foodgasm if you can SEE it you can EAT it!
 
