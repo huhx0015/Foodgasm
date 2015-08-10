@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.wearable.view.WatchViewStub;
+import android.view.View;
+import android.widget.TextView;
+
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Vector;
@@ -17,6 +20,7 @@ public class FGMainActivityWear extends FragmentActivity {
     private Boolean imagesExist = false; // Indicates that the food images are available on wear.
     private int currentFoodNumber = 0; // Tracks the current food image position.
     private ViewPager fgViewPager; // Used to reference the ViewPager object.
+    private WatchViewStub stub; // References the WatchViewStub view.
 
     /** ACTIVITY LIFECYCLE _____________________________________________________________________ **/
 
@@ -24,7 +28,7 @@ public class FGMainActivityWear extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fg_main_activity_wear);
-        final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
+        stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
 
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
@@ -141,15 +145,21 @@ public class FGMainActivityWear extends FragmentActivity {
 
     private void generateFragments(FileInputStream input) {
 
+        TextView noFoodImagesText = (TextView) stub.findViewById(R.id.fg_main_activity_wear_text);
+
         if (input == null) {
             imagesExist = false; // Indicates that no images have been sent from mobile.
+            noFoodImagesText.setVisibility(View.VISIBLE); // Displays the TextView.
             return;
         }
 
         else {
 
+            noFoodImagesText.setVisibility(View.GONE); // Hides the TextView.
+
             // TODO: Generate fragments.
             setUpSlider(); // Sets up the slider.
+
         }
     }
 }

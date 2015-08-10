@@ -106,11 +106,11 @@ public class FGWearableListener extends WearableListenerService {
             String addressData = new String(messageData);
             String[] addressMessage = addressData.split("&mode="); // Splits the String.
 
-            // Outputs the received shortcut data to the log.
-            Log.d(LOG_TAG, "onMessageReceived(): Received shortcut address: " + addressMessage[0]);
-            Log.d(LOG_TAG, "onMessageReceived(): Received shortcut type: " + addressMessage[1]);
+            // Outputs the received food data to the log.
+            Log.d(LOG_TAG, "onMessageReceived(): Received address: " + addressMessage[0]);
+            Log.d(LOG_TAG, "onMessageReceived(): Received type: " + addressMessage[1]);
 
-            // Launches Google Maps in Navigation Mode with the shortcut address and type. Checks to
+            // Launches Google Maps in Navigation Mode with the address and type. Checks to
             // see if Google Maps is installed first.
             if (checkForAppInstalled(FGApplication.instance)) {
 
@@ -215,6 +215,7 @@ public class FGWearableListener extends WearableListenerService {
         Log.d(LOG_TAG, "onNonLocalDataItem(): item: " + item + "| uri: " + uri + "| path: " + path);
 
         LinkedList<FGFoodModel> foods = FGFoodSync.receive(item); // Handles the received data.
+        FGFoodImageSync.receive(googleApiClient, item); // Receives the images.
         //FGApplication.instance.recreateDatabase(foods); // Recreates the database.
     }
 
