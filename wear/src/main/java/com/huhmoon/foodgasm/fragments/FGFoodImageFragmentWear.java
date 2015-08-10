@@ -1,4 +1,4 @@
-package com.huhmoon.foodgasm;
+package com.huhmoon.foodgasm.fragments;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.huhmoon.foodgasm.R;
+
 import java.io.FileInputStream;
 import butterknife.Bind;
 import butterknife.ButterKnife;

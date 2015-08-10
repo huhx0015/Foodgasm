@@ -1,4 +1,4 @@
-package com.huhmoon.foodgasm;
+package com.huhmoon.foodgasm.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,11 +10,16 @@ import android.support.wearable.view.WatchViewStub;
 import android.view.View;
 import android.widget.TextView;
 
+import com.huhmoon.foodgasm.R;
+import com.huhmoon.foodgasm.fragments.FGFoodImageFragmentWear;
+
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Vector;
 
 public class FGMainActivityWear extends FragmentActivity {
+
+    /** CLASS VARIABLES ________________________________________________________________________ **/
 
     private static int MAX_IMAGES_TO_LOAD = 5; // Maximum number of images to process.
     private Boolean imagesExist = false; // Indicates that the food images are available on wear.

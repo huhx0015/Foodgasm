@@ -18,7 +18,7 @@
         android:theme="@android:style/Theme.DeviceDefault" >
 
         <activity
-            android:name=".FGMainActivityWear"
+            android:name=".activities.FGMainActivityWear"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

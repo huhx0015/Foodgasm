@@ -21,6 +21,7 @@ android {
 
 dependencies {
 
+    // INTEGRATED LIBRARIES
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':library')
 
