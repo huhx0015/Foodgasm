@@ -38,7 +38,7 @@ public class FGMainActivityWear extends FragmentActivity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                loadFoodImages(); // Attempts to load the food images.
+                isFoodThere(); // Attempts to load the food images.
             }
         });
     }
@@ -70,10 +70,12 @@ public class FGMainActivityWear extends FragmentActivity {
         page.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             // onPageScrollStateChanged(): Called the page scroll state is changed.
-            public void onPageScrollStateChanged(int state) { }
+            public void onPageScrollStateChanged(int state) {
+            }
 
             // onPageScrolled(): Called when the pages are scrolled.
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             // onPageSelected(): Called when a new page is selected.
             public void onPageSelected(int position) {
@@ -127,44 +129,33 @@ public class FGMainActivityWear extends FragmentActivity {
 
     /** IMAGE METHODS __________________________________________________________________________ **/
 
-    // loadFoodImages(): Loads the food images sent from the mobile device.
-    private void loadFoodImages() {
+    // isFoodThere(): Checks if any food images exist.
+    private Boolean isFoodThere() {
 
-        for (int i = 0; i < MAX_IMAGES_TO_LOAD; i++) {
+        try {
 
-            try {
+            String filepath = getFilesDir() + "/";
+            String filename = "foodImage_1.png";
 
-                String filepath = getFilesDir() + "/";
-                String filename = "foodImage_" + i +".png";
+            FileInputStream inputStream = new FileInputStream(filepath + filename);
 
-                FileInputStream inputStream = new FileInputStream(filepath + filename);
-                generateFragments(inputStream); // Updates the friend indicators on the map.
+            if (inputStream == null) {
+                imagesExist = false;
+                return false; // No food image exists.
             }
 
-            catch (Exception e) {
-                e.printStackTrace();
-                return;
+            // Creates the slider.
+            else {
+                imagesExist = true;
+                setUpSlider(); // Sets up the slider.
+                return true;
             }
         }
-    }
 
-    private void generateFragments(FileInputStream input) {
-
-        TextView noFoodImagesText = (TextView) stub.findViewById(R.id.fg_main_activity_wear_text);
-
-        if (input == null) {
-            imagesExist = false; // Indicates that no images have been sent from mobile.
-            noFoodImagesText.setVisibility(View.VISIBLE); // Displays the TextView.
-            return;
-        }
-
-        else {
-
-            noFoodImagesText.setVisibility(View.GONE); // Hides the TextView.
-
-            // TODO: Generate fragments.
-            setUpSlider(); // Sets up the slider.
-
+        catch (Exception e) {
+            e.printStackTrace();
+            imagesExist = false;
+            return false;
         }
     }
 }

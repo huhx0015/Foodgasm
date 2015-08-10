@@ -25,7 +25,6 @@ public class FGFoodImageFragmentWear extends Fragment {
     /** FRAGMENT VARIABLES _____________________________________________________________________ **/
 
     // FOOD VARIABLES
-    private static int MAX_IMAGES_TO_LOAD = 5; // Maximum number of images to process.
     private int foodNumber = 0; // References the fragment number.
 
     // FRAGMENT VARIABLES
@@ -89,7 +88,6 @@ public class FGFoodImageFragmentWear extends Fragment {
 
     // setUpLayout(): Sets up the layout for the fragment.
     private void setUpLayout() {
-
         loadFoodImages();
     }
 
@@ -104,34 +102,22 @@ public class FGFoodImageFragmentWear extends Fragment {
             String filename = "foodImage_" + foodNumber +".png";
 
             FileInputStream inputStream = new FileInputStream(filepath + filename);
-            generateFragments(inputStream); // Updates the friend indicators on the map.
-        }
-
-        catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-    }
-
-    private void generateFragments(FileInputStream input) {
-
-        if (input == null) {
-            return;
-        }
-
-        else {
 
             // Sets the bitmap resource from the loaded file.
-            if (input != null) {
+            if (inputStream != null) {
                 try {
-                    Bitmap foodBitmap = BitmapFactory.decodeStream(input); // Retrieves the bitmap image from the input.
+                    Bitmap foodBitmap = BitmapFactory.decodeStream(inputStream); // Retrieves the bitmap image from the input.
                     foodImageView.setImageBitmap(foodBitmap); // Sets the bitmap.
                 }
                 catch (Exception e) {
                     Log.i(TAG, "File could not be set!");
                 }
             }
+        }
 
+        catch (Exception e) {
+            e.printStackTrace();
+            return;
         }
     }
 }

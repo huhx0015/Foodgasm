@@ -42,6 +42,8 @@ public class FGFoodImageSync {
         // Sends images up to the MAX_IMAGES_TO_SEND.
         for (int i = 0; i < MAX_IMAGES_TO_SEND; i++) {
 
+            Log.d(TAG, "Image sender count: " + i);
+
             // Retrieves the image URL.
             final String imageUrl = foods.get(i).getFoodUrl();
 
@@ -104,10 +106,10 @@ public class FGFoodImageSync {
         // FOOD IMAGES: Process food images from the wear.
         for (int foodImages = 0; foodImages <= MAX_IMAGES_TO_SEND; foodImages++) {
 
-            Asset friendsAsset = dataMapItem.getDataMap().getAsset("foodImage_" + foodImages);
+            Asset foodAssets = dataMapItem.getDataMap().getAsset("foodImage_" + foodImages);
 
             try {
-                Bitmap bitmap = loadBitmapFromAsset(friendsAsset, googleApiClient);
+                Bitmap bitmap = loadBitmapFromAsset(foodAssets, googleApiClient);
                 saveBitmapToFile(bitmap, FGApplication.instance, "foodImage_" + foodImages + ".png"); // Attempts to save the image.
             }
 

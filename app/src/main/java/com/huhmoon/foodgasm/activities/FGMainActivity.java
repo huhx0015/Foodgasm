@@ -381,6 +381,8 @@ public class FGMainActivity extends AppCompatActivity implements OnFoodUpdateLis
             @Override
             public void success(FoodResponse model, Response response) {
 
+                Log.d(LOG_TAG, "SUCCESS");
+
                 readyProgressBar.setVisibility(View.GONE); // Hides the progress bar.
                 isFoodLoaded = true; // Indicates that the food images have been loaded.
 
