@@ -16,6 +16,8 @@ Event Time: Friday, August 7, 2015 at 6:00 PM - Saturday, August 8, 2015 at 9:00
 
 Location: Redwood City, California, U.S.A.
 
+Event Website: http://www.eventbrite.com/e/att-mobile-app-hackathon-bay-area-tickets-17498130379
+
 DevPost: http://devpost.com/software/apparely
 
 ## Description
