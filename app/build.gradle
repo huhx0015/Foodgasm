@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.huhmoon.foodgasm"
@@ -30,14 +30,14 @@ dependencies {
     compile files('src/main/libs/jcommander-1.35.jar')
 
     // ANDROID SUPPORT LIBRARIES:
-    compile 'com.android.support:design:22.2.1'
-    compile 'com.android.support:recyclerview-v7:22.2.1'
-    compile 'com.android.support:cardview-v7:22.2.1'
-    compile 'com.google.android.gms:play-services-wearable:7.5.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.google.android.gms:play-services-wearable:9.0.2'
 
     // THIRD-PARTY LIBRARIES:
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
-    compile 'com.makeramen:roundedimageview:+'
+    compile 'com.makeramen:roundedimageview:2.2.1'
 }

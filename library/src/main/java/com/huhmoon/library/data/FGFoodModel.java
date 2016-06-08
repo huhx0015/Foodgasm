@@ -107,8 +107,12 @@ public class FGFoodModel {
             Image image = images.get(0);
             try {
                 url = image.getResolutions().get(3).getUrl().replaceAll("amp;", "");
-            }catch (Exception e) {
-                url = image.getResolutions().get(2).getUrl().replaceAll("amp;", "");
+            } catch (Exception e) {
+                try {
+                    url = image.getResolutions().get(2).getUrl().replaceAll("amp;", "");
+                } catch (Exception f) {
+                    url = image.getResolutions().get(1).getUrl().replaceAll("amp;", "");
+                }
             }
 
             foodModelList.add(new FGFoodModel(title, url));
